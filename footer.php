@@ -1,5 +1,5 @@
 
-            <footer class="footer text-center" ><marquee behavior="alternate">© 2020 All Rights are Reserved <a href="nikhilbhalerao.com"  target="_blank" style="color: yellow;"><?php echo "Developed by Freelancer Nikhil Bhalerao : +91 9423979339 ";?>
+            <footer class="footer text-center" ><marquee behavior="alternate">bidan ni dek <a href="nikhilbhalerao.com"  target="_blank" style="color: yellow;"><?php echo "dibuat oleh kelompok 4 ";?>
            
 </a></marquee></footer> 
 

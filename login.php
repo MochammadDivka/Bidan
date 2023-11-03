@@ -30,19 +30,23 @@
 <body class="fix-menu">
 
 <?php
-  include('connect.php');
-  extract($_POST);
-if(isset($_POST['btn_login']))
-{
-  $passw = hash('sha256', $_POST['password']);
-  function createSalt()
-  {
-      return '2123293dsj2hu2nikhiljdsd';
-  }
-  $salt = createSalt();
-  $pass = hash('sha256', $salt . $passw);
+ include('connect.php');
+extract($_POST);
+
+if (isset($_POST['btn_login'])) {
+    $passw = hash('sha256', $_POST['password']);
+
+    function createSalt()
+    {
+        return '2123293dsj2hu2nikhiljdsd';
+    }
+
+    $salt = createSalt();
+    $pass = hash('sha256', $salt . $passw);
+
 //echo $pass;
   if($_POST['user'] == 'admin'){
+    $email =  $_POST['email'];
     $sql = "SELECT * FROM admin WHERE loginid='" .$email . "' and password = '". $pass."'";
     $result = mysqli_query($conn,$sql);
     $row  = mysqli_fetch_array($result);
@@ -56,14 +60,18 @@ if(isset($_POST['btn_login']))
      $_SESSION["lname"] = $row['lname'];
      $_SESSION['image'] = $row['image'];
      $_SESSION['user'] = $_POST['user'];
-  }else if($_POST['user'] == 'doctor'){    
-    $sql = "SELECT * FROM doctor WHERE loginid = ? AND password = ?";
-  $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $pass);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+     
+  }else if($_POST['user'] == 'doctor'){   
+    $email = $_POST['email'];
+    $pass = hash('sha256', $_POST['password']);
+    $sql = "SELECT * FROM doctor WHERE loginid = ? and password = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $email, $pass);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);
 
-        if ($row = mysqli_fetch_array($result)) {
+
             // Data pengguna ditemukan, isi session
             $_SESSION["doctorid"] = $row['doctorid'];
             $_SESSION["id"] = $row['doctorid'];
@@ -71,13 +79,7 @@ if(isset($_POST['btn_login']))
             $_SESSION["email"] = $row['loginid'];
             $_SESSION["fname"] = $row['doctorname'];
             $_SESSION['user'] = $_POST['user'];
-            
-            // Redirect ke halaman setelah login
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            echo "Kombinasi email dan password salah. Silakan coba lagi.";
-        }
+      
   }else if($_POST['user'] == 'patient'){    
     $sql = "SELECT * FROM patient WHERE loginid='" .$email . "' and password = '". $pass."'";
     $result = mysqli_query($conn,$sql);
@@ -246,6 +248,4 @@ while($row=mysqli_fetch_array($query))
 
 
 </body>
-
-<!-- for any PHP, Codeignitor or Laravel work contact me at mayuri.infospace@gmail.com -->
 </html>

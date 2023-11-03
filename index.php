@@ -115,7 +115,7 @@ $row_manage = mysqli_fetch_array($result_manage);
          }
     ?>
 </h4>
-<h6 class="text-white m-b-0">Hospital Earning</h6>
+<h6 class="text-white m-b-0">Bidam</h6>
  </div>
 <div class="col-4 text-right">
 <canvas id="update-chart-1" height="50"></canvas>

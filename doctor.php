@@ -30,7 +30,11 @@ if (isset($_POST['btn_submit'])) {
         }
     } else {
         $passw = hash('sha256', $_POST['password']);
-
+        function createSalt()
+        {
+            return '2123293dsj2hu2nikhiljdsd';
+        }
+        $salt = createSalt();
         $sql = "INSERT INTO doctor (doctorname, mobileno, departmentid, loginid, password, status, education, experience, consultancy_charge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssisssiss", $_POST['doctorname'], $_POST['mobilenumber'], $_POST['department'], $_POST['loginid'], $passw, $_POST['status'], $_POST['education'], $_POST['experience'], $_POST['consultancy_charge']);
