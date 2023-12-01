@@ -1,81 +1,73 @@
+<?php 
+require_once 'check_login.php';
+include 'head.php';
+include 'header.php';
+include 'sidebar.php';
+include 'connect.php';
 
-<!-- Author Name: Nikhil Bhalerao +919423979339. 
-PHP, Laravel and Codeignitor Developer
--->
-<?php require_once('check_login.php');?>
-<?php include('head.php');?>
-<?php include('header.php');?>
-<?php include('sidebar.php');?>
-<?php include('connect.php');
-if(isset($_GET['id']))
-{
-  $sql ="UPDATE appointment SET delete_status='1' WHERE departmentid='$_GET[id]'";
-  $qsql=mysqli_query($conn,$sql);
-  if(mysqli_affected_rows($conn) == 1)
-  {
-?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-      <div class="popup__background"></div>
-      <div class="popup__content">
-        <h3 class="popup__content__title">
-          Success 
-        </h3>
-        <p>Appoinrment record deleted successfully</p>
-        <p>
-         <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-         <?php echo "<script>setTimeout(\"location.href = 'view-appointments.php';\",1500);</script>"; ?>
-        </p>
-      </div>
-    </div>
-<?php
-    //echo "<script>alert('Department record deleted successfully..');</script>";
-    //echo "<script>window.location='view-appointment.php';</script>";
-  }
+if (isset($_GET['id'])) {
+    $sql = "UPDATE appointment SET delete_status='1' WHERE departmentid=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_GET['id']);
+    $stmt->execute();
+
+    if ($stmt->affected_rows == 1) {
+        echo '
+        <div class="popup popup--icon -success js_success-popup popup--visible">
+            <div class="popup__background"></div>
+            <div class="popup__content">
+                <h3 class="popup__content__title">
+                    Success 
+                </h3>
+                <p>Appointment record deleted successfully</p>
+                <p>';
+        echo "<script>setTimeout(\"location.href = 'view-appointments.php';\",1500);</script>";
+        echo '
+                </p>
+            </div>
+        </div>';
+    }
 }
 
+if (isset($_GET['approveid'])) {
+    $sql = "UPDATE appointment SET status='Approved' WHERE appointmentid=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_GET['approveid']);
+    $stmt->execute();
 
-if(isset($_GET['approveid']))
-{
-  $sql ="UPDATE appointment SET status='Approved' WHERE appointmentid='$_GET[approveid]'";
-  $qsql=mysqli_query($conn,$sql);
-  if(mysqli_affected_rows($conn) == 1)
-  {
-?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-      <div class="popup__background"></div>
-      <div class="popup__content">
-        <h3 class="popup__content__title">
-          Success 
-        </h3>
-        <p>Appointment record Approved successfully.</p>
-        <p>
-         <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-         <?php echo "<script>setTimeout(\"location.href = 'view-appointments.php';\",1500);</script>"; ?>
-        </p>
-      </div>
-    </div>
-<?php
-    //echo "<script>alert('Appointment record Approved successfully..');</script>";
-    //echo "<script>window.location='view-appointment.php';</script>";
-  }
+    if ($stmt->affected_rows == 1) {
+        echo '
+        <div class="popup popup--icon -success js_success-popup popup--visible">
+            <div class="popup__background"></div>
+            <div class="popup__content">
+                <h3 class="popup__content__title">
+                    Success 
+                </h3>
+                <p>Appointment record Approved successfully.</p>
+                <p>';
+        echo "<script>setTimeout(\"location.href = 'view-appointments.php';\",1500);</script>";
+        echo '
+                </p>
+            </div>
+        </div>';
+    }
 }
 ?>
-<?php
-if(isset($_GET['delid']))
-{ ?>
-<div class="popup popup--icon -question js_question-popup popup--visible">
-  <div class="popup__background"></div>
-  <div class="popup__content">
-    <h3 class="popup__content__title">
-      Sure
-    </h1>
-    <p>Are You Sure To Delete This Record?</p>
-    <p>
-      <a href="view-department.php?id=<?php echo $_GET['delid']; ?>" class="button button--success" data-for="js_success-popup">Yes</a>
-      <a href="view-department.php" class="button button--error" data-for="js_success-popup">No</a>
-    </p>
-  </div>
-</div>
+
+<?php if (isset($_GET['delid'])) { ?>
+    <div class="popup popup--icon -question js_question-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Sure
+            </h3>
+            <p>Are You Sure To Delete This Record?</p>
+            <p>
+                <a href="view-department.php?id=<?php echo $_GET['delid']; ?>" class="button button--success" data-for="js_success-popup">Yes</a>
+                <a href="view-department.php" class="button button--error" data-for="js_success-popup">No</a>
+            </p>
+        </div>
+    </div>
 <?php } ?>
 <div class="pcoded-content">
 <div class="pcoded-inner-content">

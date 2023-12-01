@@ -30,7 +30,7 @@ if (isset($_POST['btn_submit'])) {
                     </p>
                 </div>
             </div>
-<?php
+        <?php
         } else {
             echo mysqli_error($conn);
         }
@@ -49,7 +49,7 @@ if (isset($_POST['btn_submit'])) {
         $sql = "INSERT INTO appointment(patientid, departmentid, appointmentdate, appointmenttime, doctorid, status, app_reason) VALUES('$patient', '$department', '$appointmentdate', '$appointmenttime', '$doctor', '$status', '$reason')";
 
         if ($qsql = mysqli_query($conn, $sql)) {
-?>
+        ?>
             <div class="popup popup--icon -success js_success-popup popup--visible">
                 <div class="popup__background"></div>
                 <div class="popup__content">
@@ -90,7 +90,7 @@ if (isset($_GET['editid'])) {
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Appointment</h4>
+                                    <h4>Pendaftaran Pemeriksaan</h4>
                                 </div>
                             </div>
                         </div>
@@ -100,8 +100,8 @@ if (isset($_GET['editid'])) {
                                     <li class="breadcrumb-item">
                                         <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-                                    <li class="breadcrumb-item"><a>Appointment</a></li>
-                                    <li class="breadcrumb-item"><a href="add_user.php">Appointment</a></li>
+                                    <li class="breadcrumb-item"><a>Pendaftaran Pemeriksaan</a></li>
+                                    <li class="breadcrumb-item"><a href="add_user.php">Pendaftaran Pemeriksaan</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -127,53 +127,26 @@ if (isset($_GET['editid'])) {
                                         ?>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Patient</label>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" name="patient" id="patient" required="">
-                                                    <option>-- Select One--</option>
-                                                    <?php
-                                                    $sqlpatient = "SELECT * FROM patient WHERE status='Active'";
-                                                    $qsqlpatient = mysqli_query($conn, $sqlpatient);
-                                                    while ($rspatient = mysqli_fetch_array($qsqlpatient)) {
-                                                        if ($rspatient['patientid'] == $rsedit['patientid']) {
-                                                            echo "<option value='" . $rspatient['patientid'] . "' selected>" . $rspatient['patientid'] . " - " . $rspatient['patientname'] . "</option>";
-                                                        } else {
-                                                            echo "<option value='" . $rspatient['patientid'] . "'>" . $rspatient['patientid'] . " - " . $rspatient['patientname'] . "</option>";
-                                                        }
-                                                    }
-                                                    ?>
+                                            <label class="col-sm-2 col-form-label">Pasien</label>
+                                            <div class="col">
+                                                <select class="form-control" readonly name="patient" id="patient" required="">
+                                                    <option hidden value="<?php echo $_SESSION['patientid'] ?>">
+                                                        <?php echo $_SESSION['fname'] ?></option>
                                                 </select>
                                                 <span class="messages"></span>
                                             </div>
 
-                                            <label class="col-sm-2 col-form-label">Department</label>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" name="department" id="department" placeholder="Enter lastname...." required="">
-                                                    <option value="">-- Select One --</option>
-                                                    <?php
-                                                    $sqldepartment = "SELECT * FROM department WHERE status='Active'";
-                                                    $qsqldepartment = mysqli_query($conn, $sqldepartment);
-                                                    while ($rsdepartment = mysqli_fetch_array($qsqldepartment)) {
-                                                        if ($rsdepartment['departmentid'] == $rsedit['departmentid']) {
-                                                            echo "<option value='" . $rsdepartment['departmentid'] . "' selected>" . $rsdepartment['departmentname'] . "</option>";
-                                                        } else {
-                                                            echo "<option value='" . $rsdepartment['departmentid'] . "'>" . $rsdepartment['departmentname'] . "</option>";
-                                                        }
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <span class="messages"></span>
-                                            </div>
+
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Date</label>
+                                            <label class="col-sm-2 col-form-label">Tanggal</label>
                                             <div class="col-sm-4">
                                                 <input type="date" class="form-control" name="appointmentdate" id="appointmentdate" placeholder="Enter firstname...." required="">
                                                 <span class="messages"></span>
                                             </div>
 
-                                            <label class="col-sm-2 col-form-label">Time</label>
+                                            <label class="col-sm-2 col-form-label">Waktu</label>
                                             <div class="col-sm-4">
                                                 <input type="time" class="form-control" name="appointmenttime" id="appointmenttime" placeholder="Enter lastname...." required="">
                                                 <span class="messages"></span>
@@ -181,10 +154,10 @@ if (isset($_GET['editid'])) {
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Doctor</label>
+                                            <label class="col-sm-2 col-form-label">Bidan</label>
                                             <div class="col-sm-4">
                                                 <select name="doctor" name="doctor" class="form-control">
-                                                    <option value="">Select Doctor</option>
+                                                    <option value="">Pilih Bidan</option>
                                                     <?php
                                                     $sqldoctor = "SELECT * FROM doctor INNER JOIN department ON department.departmentid=doctor.departmentid WHERE doctor.status='Active'";
                                                     $qsqldoctor = mysqli_query($conn, $sqldoctor);
@@ -206,17 +179,12 @@ if (isset($_GET['editid'])) {
                                             <label class="col-sm-2 col-form-label">Status</label>
                                             <div class="col-sm-4">
                                                 <select name="status" id="status" class="form-control" required="">
-                                                    <option value="">-- Select One -- </option>
-                                                    <option value="Active" <?php if (isset($_GET['patid'])) {
-                                                            if ($rsedit['status'] == 'Active') {
-                                                                echo 'selected';
-                                                            }
-                                                        } ?>>Active</option>
-                                                    <option value="Inactive" <?php if (isset($_GET['patid'])) {
-                                                            if ($rsedit['status'] == 'Inactive') {
-                                                                echo 'selected';
-                                                            }
-                                                        } ?>>Inactive</option>
+
+                                                    <option hidden value="Inactive" <?php if (isset($_GET['patid'])) {
+                                                                                        if ($rsedit['status'] == 'Inactive') {
+                                                                                            echo 'selected';
+                                                                                        }
+                                                                                    } ?>>Periksa</option>
                                                 </select>
                                                 <span class="messages"></span>
                                             </div>
@@ -226,8 +194,8 @@ if (isset($_GET['editid'])) {
                                             <label class="col-sm-2 col-form-label">Reason</label>
                                             <div class="col-sm-10">
                                                 <textarea class="form-control" name="reason" id="reason" placeholder="Reason...." required=""><?php if (isset($_GET['patid'])) {
-                                                        echo $rsedit['app_reason'];
-                                                    } ?></textarea>
+                                                                                                                                                    echo $rsedit['app_reason'];
+                                                                                                                                                } ?></textarea>
                                                 <span class="messages"></span>
                                             </div>
                                         </div>

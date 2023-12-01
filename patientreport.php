@@ -1,7 +1,4 @@
 
-<!-- Author Name: Nikhil Bhalerao +919423979339. 
-PHP, Laravel and Codeignitor Developer
--->
 <?php require_once('check_login.php');?>
 <?php include('head.php');?>
 <?php include('header.php');?>
@@ -140,18 +137,7 @@ if(isset($_GET['id']))
                   <a class="nav-link" data-toggle="tab" href="#treatment" role="tab">Treatment Record</a>
                   <div class="slide"></div>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#prescription" role="tab">Prescription record</a>
-                  <div class="slide"></div>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#billing" role="tab">Billing Report</a>
-                  <div class="slide"></div>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#payment" role="tab">Payment Report</a>
-                  <div class="slide"></div>
-              </li>
+              
           </ul>
           <!-- Tab panes -->
           <div class="tab-content tabs-left-content card-block">
@@ -167,21 +153,21 @@ if(isset($_GET['id']))
                     <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                       <tbody>
                         <tr>
-                          <th>Patient Name</th>
+                          <th>Nama Pasien</th>
                           <td>&nbsp;<?php echo $rspatient['patientname']; ?></td>
-                          <th>Patient ID</th>
-                          <td>&nbsp;<?php echo $rspatient['patientid']; ?></td>
+                          <th>Umur</th>
+                          <td>&nbsp;<?php echo $rspatient['Umur']; ?></td>
                         </tr>
                         <tr>
-                          <th>Address</th>
+                          <th>Alamat</th>
                           <td>&nbsp;<?php echo $rspatient['address']; ?></td>
-                          <th>Gender</th>
-                          <td> <?php echo $rspatient['gender'];?></td>
+                          <th>Agama</th>
+                          <td> <?php echo $rspatient['Agama'];?></td>
                         </tr>
                         <tr>
-                          <th>Contact Number</th>
+                          <th>No Telpon</th>
                           <td>&nbsp;<?php echo $rspatient['mobileno']; ?></td>
-                          <th>Date Of Birth </th>
+                          <th>Tanggal Lahir </th>
                           <td>&nbsp;<?php echo $rspatient['dob']; ?></td>
                         </tr>
                       </tbody>

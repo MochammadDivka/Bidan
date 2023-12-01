@@ -1,125 +1,71 @@
+<?php
+require_once('check_login.php');
+include('head.php');
+include('header.php');
+include('sidebar.php');
+include('connect.php');
 
+if (isset($_POST["btn_web"])) {
+    $business_name = $_POST['business_name'];
+    $business_email = $_POST['business_email'];
+    $business_web = $_POST['business_web'];
+    $portal_addr = $_POST['portal_addr'];
+    $addr = $_POST['addr'];
+    $curr_sym = $_POST['curr_sym'];
+    $curr_position = $_POST['curr_position'];
+    $front_end_en = $_POST['front_end_en'];
+    $date_format = $_POST['date_format'];
+    $def_tax = $_POST['def_tax'];
+    $logo = $row['logo']; // Assuming $row is defined somewhere
 
-<!-- Author Name: Nikhil Bhalerao +919423979339. 
-PHP, Laravel and Codeignitor Developer
--->
-<?php require_once('check_login.php');?>
-<?php include('head.php');?>
-<?php include('header.php');?>
-<?php include('sidebar.php');?>
+    $target_dir = "uploadImage/Logo/";
 
- <?php
- include('connect.php');
-if(isset($_POST["btn_web"]))
-{
-  extract($_POST);
-  $target_dir = "uploadImage/Logo/";
-  $website_logo = basename($_FILES["website_image"]["name"]);
-  if($_FILES["website_image"]["tmp_name"]!=''){
-    $image = $target_dir . basename($_FILES["website_image"]["name"]);
-   if (move_uploaded_file($_FILES["website_image"]["tmp_name"], $image)) {
-    
-       @unlink("uploadImage/Logo/".$_POST['old_website_image']);
-    
-    } else {
-        echo "Sorry, there was an error uploading your file.";
+    function handleFileUpload($fileInput, $targetDir, $oldImage)
+    {
+        if ($_FILES[$fileInput]["error"] !== UPLOAD_ERR_OK) {
+            echo "File upload failed with error code: " . $_FILES[$fileInput]["error"];
+            return $oldImage;
+        }
+
+        $image = $targetDir . basename($_FILES[$fileInput]["name"]);
+
+        if (move_uploaded_file($_FILES[$fileInput]["tmp_name"], $image)) {
+            @unlink($targetDir . $oldImage);
+            return basename($_FILES[$fileInput]["name"]);
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+            return $oldImage;
+        }
     }
-  }
-  else {
-     $website_logo =$_POST['old_website_image'];
-  }
 
-   $login_logo = basename($_FILES["login_image"]["name"]);
-  if($_FILES["login_image"]["tmp_name"]!=''){
-    $image = $target_dir . basename($_FILES["login_image"]["name"]);
-   if (move_uploaded_file($_FILES["login_image"]["tmp_name"], $image)) {
-    
-       @unlink("uploadImage/Logo/".$_POST['old_login_image']);
-    
+    $logo = handleFileUpload("logo", $target_dir, $_POST['old_logo']);
+
+    $q1 = $conn->prepare("UPDATE `manage_website` SET 
+        `business_name`=?, `business_email`=?, `business_web`=?, `portal_addr`=?, `addr`=?,
+        `curr_sym`=?, `curr_position`=?, `front_end_en`=?, `date_format`=?, `def_tax`=?, `logo`=?
+    ");
+    $q1->bind_param(
+        "sssssssssss",
+        $business_name, $business_email, $business_web, $portal_addr, $addr,
+        $curr_sym, $curr_position, $front_end_en, $date_format, $def_tax, $logo
+    );
+
+    if ($q1->execute()) {
+        $_SESSION['success'] = 'Record Successfully Updated';
+        header("Location: manage_website.php");
+        exit();
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        $_SESSION['error'] = 'Something Went Wrong';
     }
-  
-  }
-  else {
-     $login_logo =$_POST['old_login_image'];
-  }
-
-   $invoice_logo = basename($_FILES["invoice_image"]["name"]);
-  if($_FILES["invoice_image"]["tmp_name"]!=''){
-    $image = $target_dir . basename($_FILES["invoice_image"]["name"]);
-   if (move_uploaded_file($_FILES["invoice_image"]["tmp_name"], $image)) {
-    
-       @unlink("uploadImage/Logo/".$_POST['old_invoice_image']);
-    
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-  
-  }
-  else {
-     $invoice_logo =$_POST['old_invoice_image'];
-  }
-
-    $background_login_image = basename($_FILES["back_login_image"]["name"]);
-  if($_FILES["back_login_image"]["tmp_name"]!=''){
-    $image = $target_dir . basename($_FILES["back_login_image"]["name"]);
-   if (move_uploaded_file($_FILES["back_login_image"]["tmp_name"], $image)) {
-    
-       @unlink("uploadImage/Logo/".$_POST['old_back_login_image']);
-    
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-  
-  }
-  else {
-     $background_login_image =$_POST['old_back_login_image'];
-  }
-  
-   $q1="UPDATE `manage_website` SET `title`='$title',`short_title`='$short_title',`logo`='$website_logo',`footer`='$footer' ,`currency_code`= '$currency_code',`currency_symbol`= '$currency_symbol',`login_logo`='$login_logo',`invoice_logo`='$invoice_logo' , `background_login_image` = '$background_login_image'";
-  if ($conn->query($q1) === TRUE) {
-   
-      $_SESSION['success']='Record Successfully Updated';
-      ?>
-      <script type="text/javascript">
-        window.location = "manage_website.php";
-      </script>
-      <?php 
-
-} else {
-   
-      $_SESSION['error']='Something Went Wrong';
 }
-  ?>
-  <script>
-  //window.location = "sms_config.php";
-  </script>
-  <?php
+
+$que = "SELECT * FROM manage_website";
+$query = $conn->query($que);
+while ($row = mysqli_fetch_array($query)) {
+    extract($row);
 }
 
 ?>
-
-<?php
-$que="select * from manage_website";
-$query=$conn->query($que);
-while($row=mysqli_fetch_array($query))
-{
-  //print_r($row);
-  extract($row);
-  $title = $row['title'];
-  $short_title = $row['short_title'];
-  $footer = $row['footer'];
-  $currency_code = $row['currency_code'];
-  $currency_symbol = $row['currency_symbol'];
-  $website_logo = $row['logo'];
-  $login_logo = $row['login_logo'];
-  $invoice_logo = $row['invoice_logo'];
-}
-
-?> 
-   
-?> 
 
   <!-- Page wrapper  -->
         <div class="page-wrapper">
@@ -149,105 +95,18 @@ while($row=mysqli_fetch_array($query))
                             <div class="card-body">
                                 <div class="input-states">
                                     <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Title</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text"  value="<?php echo $title;?>"  name="title" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
+                                       <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-3 control-label">Logo</label>
+                        <div class="col-sm-9">
+                            <image class="profile-img" src="uploadImage/Logo/<?= $logo ?>" style="height:35%;width:25%;">
+                            <input type="hidden" value="<?= $logo ?>" name="old_logo">
+                            <input type="file" class="form-control" name="logo">
+                        </div>
+                    </div>
+                </div
 
-                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Short Title</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text"  value="<?php echo $short_title;?>"  name="short_title" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                          <div class="row">
-                                           <label class="col-sm-3 control-label">Footer</label>
-                                            <div class="col-sm-9">
-                                        <textarea class="textarea_editor form-control" name="footer" rows="5" placeholder="Enter text ..." style="height:300px;"><?php echo $footer;?></textarea>
-                                      </div>
-                                        </div>
-                                    </div>
-
-                                       <!--   <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Footer</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" value="<?php// echo $footer;?>"  name="footer" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div> -->
-
-                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Currency Code</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" value="<?php echo $currency_code;?>"  name="currency_code" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Currency Symbol</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" value="<?php echo $currency_symbol;?>" name="currency_symbol" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Website Logo</label>
-                                                <div class="col-sm-9">
-                                  <image class="profile-img" src="uploadImage/Logo/<?=$website_logo?>" style="height:35%;width:25%;">
-                  <input type="hidden" value="<?=$website_logo?>" name="old_website_image">
-                          <input type="file" class="form-control" name="website_image">
-                                                </div>
-                                            </div>
-                                        </div>  
-  
-                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Invoice Logo</label>
-                                                <div class="col-sm-9">
-                                  <image class="profile-img" src="uploadImage/Logo/<?=$invoice_logo?>" style="height:35%;width:35%;">
-                          <input type="hidden" value="<?=$invoice_logo?>" name="old_invoice_image">
-                          <input type="file" class="form-control" name="invoice_image">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Login Page Logo</label>
-                                                <div class="col-sm-9">
-                                  <image class="profile-img" src="uploadImage/Logo/<?=$login_logo?>" style="height:35%;width:35%;">
-                          <input type="hidden" value="<?=$login_logo?>" name="old_login_image">
-                          <input type="file" class="form-control" name="login_image">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                          <div class="form-group">
-                                            <div class="row">
-                                                <label class="col-sm-3 control-label">Background Image For Login Page</label>
-                                                <div class="col-sm-9">
-                                  <image class="profile-img" src="uploadImage/Logo/<?=$background_login_image?>" style="height:35%;width:35%;">
-                          <input type="hidden" value="<?=$background_login_image?>" name="old_back_login_image">
-                          <input type="file" class="form-control" name="back_login_image">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
 
 

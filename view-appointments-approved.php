@@ -1,7 +1,4 @@
 
-<!-- Author Name: Nikhil Bhalerao +919423979339. 
-PHP, Laravel and Codeignitor Developer
--->
 <?php require_once('check_login.php');?>
 <?php include('head.php');?>
 <?php include('header.php');?>
@@ -136,50 +133,55 @@ if(isset($_GET['id']))
 </thead>
 <tbody>
 <?php
-        $sql ="SELECT * FROM appointment WHERE (status='Approved' OR status='Active') and delete_status = '0'";
-        if(isset($_SESSION['patientid']))
-        {
-          $sql  = $sql . " AND patientid='$_SESSION[patientid]'";
-        }
-        $qsql = mysqli_query($conn,$sql);
-        while($rs = mysqli_fetch_array($qsql))
-        {
-          $sqlpat = "SELECT * FROM patient WHERE patientid='$rs[patientid]'";
-          $qsqlpat = mysqli_query($conn,$sqlpat);
-          $rspat = mysqli_fetch_array($qsqlpat);
+$sql = "SELECT * FROM appointment WHERE (status='Approved' OR status='Active') and delete_status = '0'";
 
+if (isset($_SESSION['patientid'])) {
+    $patientId = mysqli_real_escape_string($conn, $_SESSION['patientid']);
+    $sql .= " AND patientid='$patientId'";
+}
 
-          $sqldept = "SELECT * FROM department WHERE departmentid='$rs[departmentid]'";
-          $qsqldept = mysqli_query($conn,$sqldept);
-          $rsdept = mysqli_fetch_array($qsqldept);
+$qsql = mysqli_query($conn, $sql);
 
-          $sqldoc= "SELECT * FROM doctor WHERE doctorid='$rs[doctorid]'";
-          $qsqldoc = mysqli_query($conn,$sqldoc);
-          $rsdoc = mysqli_fetch_array($qsqldoc);
-          echo "<tr>
+while ($rs = mysqli_fetch_array($qsql)) {
+    $sqlpat = "SELECT * FROM patient WHERE patientid='$rs[patientid]'";
+    $qsqlpat = mysqli_query($conn, $sqlpat);
+    $rspat = mysqli_fetch_array($qsqlpat);
 
-          <td>&nbsp;$rspat[patientname]<br>&nbsp;$rspat[mobileno]</td>     
-          <td>&nbsp;" . date("d-M-Y",strtotime($rs['appointmentdate'])) . " &nbsp; " . date("H:i A",strtotime($rs['appointmenttime'])) . "</td> 
-          <td>&nbsp;$rsdept[departmentname]</td>
-          <td>&nbsp;$rsdoc[doctorname]</td>
-          <td>&nbsp;$rs[app_reason]</td>
-          <td>&nbsp;$rs[status]</td>
+    $sqldept = "SELECT * FROM department WHERE departmentid='$rs[departmentid]'";
+    $qsqldept = mysqli_query($conn, $sqldept);
+    $rsdept = mysqli_fetch_array($qsqldept);
+
+    $sqldoc = "SELECT * FROM doctor WHERE doctorid='$rs[doctorid]'";
+    $qsqldoc = mysqli_query($conn, $sqldoc);
+    $rsdoc = mysqli_fetch_array($qsqldoc);
+
+    $departmentName = isset($rsdept['departmentname']) ? htmlspecialchars($rsdept['departmentname']) : '';
+    $patientName = isset($rspat['patientname']) ? htmlspecialchars($rspat['patientname']) : '';
+    $mobileNo = isset($rspat['mobileno']) ? htmlspecialchars($rspat['mobileno']) : '';
+
+    echo "<tr>
+          <td>&nbsp;$patientName<br>&nbsp;$mobileNo</td>     
+          <td>&nbsp;" . date("d-M-Y", strtotime($rs['appointmentdate'])) . " &nbsp; " . date("H:i A", strtotime($rs['appointmenttime'])) . "</td> 
+          <td>&nbsp;$departmentName</td>
+          <td>&nbsp;" . (isset($rsdoc['doctorname']) ? htmlspecialchars($rsdoc['doctorname']) : '') . "</td>
+
+          <td>&nbsp;" . htmlspecialchars($rs['app_reason']) . "</td>
+          <td>&nbsp;" . htmlspecialchars($rs['status']) . "</td>
           <td>";
-          if($rs['status'] != "Approved")
-          {
-            if(!(isset($_SESSION['patientid'])))
-            {
-              echo "<a href='view-pending-appointment.php?approveid=$rs[appointmentid]&patientid=$rs[patientid]' class='btn btn-xs btn-primary'>Approve</a>";
-            }
-            echo "  <a href='view-pending-appointment.php?id=$rs[appointmentid]' class='btn btn-xs btn-danger'>Delete</a>";
-          }
-          else
-          {
-            echo "<a href='patientreport.php?patientid=$rs[patientid]&appointmentid=$rs[appointmentid]' class='btn btn-xs btn-primary'>View Report</a>";
-          }
-          echo "</td></tr>";
+
+    if ($rs['status'] != "Approved") {
+        if (!(isset($_SESSION['patientid']))) {
+            echo "<a href='view-pending-appointment.php?approveid=$rs[appointmentid]&patientid=$rs[patientid]' class='btn btn-xs btn-primary'>Approve</a>";
         }
-        ?>
+        echo "  <a href='view-pending-appointment.php?id=$rs[appointmentid]' class='btn btn-xs btn-danger'>Delete</a>";
+    } else {
+        echo "<a href='patientreport.php?patientid=$rs[patientid]&appointmentid=$rs[appointmentid]' class='btn btn-xs btn-primary'>View Report</a>";
+    }
+
+    echo "</td></tr>";
+}
+?>
+
 </tbody>
 <tfoot>
 <tr>
@@ -196,18 +198,9 @@ if(isset($_GET['id']))
 </div>
 </div>
 </div>
-
-
-
-
-
-
-
-</div>
-
 </div>
 </div>
-
+</div>
 <div id="#">
 </div>
 </div>
