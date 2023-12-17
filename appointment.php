@@ -1,12 +1,12 @@
 <?php require_once('check_login.php'); ?>
-<?php include('head.php'); ?>
+<?php include_once('head.php'); ?>
 
 <?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
-    include('header.php');
-    include('sidebar.php');
+    include_once('header.php');
+    include_once('sidebar.php');
 } ?>
 
-<?php include('connect.php'); ?>
+<?php include_once('connect.php'); ?>
 <?php
 
 if (isset($_POST['btn_submit'])) {

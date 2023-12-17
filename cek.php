@@ -1,7 +1,7 @@
 <?php require_once('check_login.php');
-include('head.php');
-include('pala.php');
-include('connect.php'); ?>
+include_once('head.php');
+include_once('pala.php');
+include_once('connect.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,48 +18,48 @@ include('connect.php'); ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-    body {
-        background-color: #f8f9fa;
-    }
+        body {
+            background-color: #f8f9fa;
+        }
 
-    header {
-        background-color: #007bff;
-        color: white;
-        padding: 20px 0;
-        text-align: center;
-    }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-    main {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-    }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    section {
-        margin: 20px;
-    }
+        section {
+            margin: 20px;
+        }
 
-    .custom-btn {
-        background-color: #6c56f5;
-        color: #ffffff;
-    }
+        .custom-btn {
+            background-color: #6c56f5;
+            color: #ffffff;
+        }
 
-    .card {
-        width: 200px;
-        height: 300px;
-        /* Atur tinggi card sesuai kebutuhan */
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-        margin-bottom: 20px;
-    }
+        .card {
+            width: 200px;
+            height: 300px;
+            /* Atur tinggi card sesuai kebutuhan */
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            margin-bottom: 20px;
+        }
 
 
-    .card:hover {
-        transform: scale(1.05);
-    }
+        .card:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
@@ -144,8 +144,7 @@ include('connect.php'); ?>
                         <div class="card-body">
                             <h2 class="card-title">Kunjungan ulang</h2>
                             <p class="card-text">Isi formulir untuk kunjungan ulang.</p>
-                            <a href="kunjungan-ulang.php?setid_kunjungan_ulang=<?php echo $_GET['prosesid'] ?>"
-                                class="btn waves-effect waves-light custom-btn">
+                            <a href="kunjungan-ulang.php?setid_kunjungan_ulang=<?php echo $_GET['prosesid'] ?>" class="btn waves-effect waves-light custom-btn">
                                 <i class="fas fa-edit"></i> Buka Formulir
                             </a>
                         </div>
@@ -176,4 +175,4 @@ include('connect.php'); ?>
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>

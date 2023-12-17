@@ -25,7 +25,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
     $status =
         mysqli_query(
             $conn,
-            "DELETE from kunjungan_ulang where id = $_POST[delete]"
+            "DELETE from pemeriksaankb where id = $_POST[delete]"
         );
     if ($status) {
         $_SESSION['popup-delete-sukses'] = true;
@@ -54,9 +54,10 @@ if (isset($_GET['action'], $_POST['delete'])) {
                             <div class="page-header-breadcrumb">
                                 <ul class="breadcrumb-title">
                                     <li class="breadcrumb-item">
-                                        <a href="index.php"> <i class="feather icon-home"></i> </a>
+                                        <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-
+                                    <li class="breadcrumb-item"><a href="listtabel.php">List Tabel
+                                    </li>
                                     <li class="breadcrumb-item"><a href="tabelRK.php">Tabel Riwayat Kehamilan</a>
                                     </li>
                                 </ul>
@@ -89,14 +90,18 @@ if (isset($_GET['action'], $_POST['delete'])) {
                             <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Haid Tanggal</th>
                                         <th>Tekanan Darah</th>
-                                        <th>Berat Badan</th>
-                                        <th>Keluhan Efek Samping</th>
-                                        <th>Keluhan Komplikasi</th>
-                                        <th>Tindakan</th>
-                                        <th>Tanggal Kembali</th>
+                                        <th>Haid Terakhir</th>
+                                        <th>Kebiasaan Merokok</th>
+                                        <th>Tentang Menyusui</th>
+                                        <th>Tanggal Persalinan Terakhir</th>
+                                        <th>Sakit Kuning</th>
+                                        <th>perd.per.vag</th>
+                                        <th>Tumor Payudara</th>
+                                        <th>Keluhan</th>
+                                        <th>Tanggal dilayanin</th>
+                                        <th>Tanggal dipesan kembali</th>
+                                        <th>Tanggal dilepas</th>
                                         <?php
                                         if ($_SESSION['user'] == 'doctor') {
                                         ?>
@@ -108,22 +113,27 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $rskunjungan_ulang = mysqli_query(
+                                    $rspemeriksaankb = mysqli_query(
                                         $conn,
-                                        "SELECT * FROM kunjungan_ulang where id_pasien = '{$current_query_relative_to_user}'"
+                                        "SELECT * FROM pemeriksaankb where patient = '{$current_query_relative_to_user}'"
                                     );
 
-                                    while ($array1 = mysqli_fetch_assoc($rskunjungan_ulang)) {
+                                    while ($array1 = mysqli_fetch_assoc($rspemeriksaankb)) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $array1['tanggal'] ?></td>
-                                            <td><?php echo $array1['haid_tanggal'] ?></td>
-                                            <td> <?php echo $array1['b.b'] ?> </td>
-                                            <td> <?php echo $array1['tek.darah'] ?> </td>
-                                            <td><?php echo $array1['keluhan_efek_samping'] ?></td>
-                                            <td><?php echo $array1['keluhan_komplikasi'] ?></td>
-                                            <td><?php echo $array1['tindakan'] ?></td>
-                                            <td><?php echo $array1['tanggal_kembali'] ?></td>
+                                            <td><?php echo $array1['Tekanan_darah'] ?></td>
+                                            <td><?php echo $array1['Haid_terakhir'] ?></td>
+                                            <td> <?php echo $array1['Kebiasaan_merokok'] ?> </td>
+                                            <td> <?php echo $array1['Tentang_menyusui'] ?> </td>
+                                            <td><?php echo $array1['Tanggal_persalinan_terakhir'] ?></td>
+                                            <td><?php echo $array1['sakit-kuning'] ?></td>
+                                            <td><?php echo $array1['vag'] ?></td>
+                                            <td><?php echo $array1['tumor'] ?></td>
+                                            <td><?php echo $array1['Keluhan'] ?></td>
+                                            <td><?php echo $array1['tanggal_dilayani'] ?></td>
+                                            <td><?php echo $array1['tanggal_dipesan_kembali'] ?></td>
+                                            <td><?php echo $array1['tanggal_dilepas'] ?></td>
+
                                             <?php
                                             if ($_SESSION['user'] == 'doctor') {
                                             ?>
@@ -147,7 +157,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
                 </div>
 
                 <div class=" col-sm-4 mb-4">
-                                                            <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>" class="btn btn-secondary custom-btn">
+                                                            <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'dashboard.php'; ?>" class="btn btn-secondary custom-btn">
                                                                 <i class="fas fa-arrow-left"></i> Kembali
                                                             </a>
                         </div>

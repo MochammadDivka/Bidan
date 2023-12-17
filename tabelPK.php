@@ -1,7 +1,7 @@
 <?php require_once('check_login.php');
-include('head.php');
-include('pala.php');
-include('connect.php');
+include_once('head.php');
+include_once('pala.php');
+include_once('connect.php');
 
 
 session_start();
@@ -182,7 +182,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
 </div>
 </div>
 </div>
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
     <div class="popup popup--icon -success js_success-popup popup--visible">
         <div class="popup__background"></div>

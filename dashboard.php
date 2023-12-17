@@ -13,7 +13,7 @@
 
 
 <?php include_once('connect.php'); ?>
-
+<?php session_start(); ?>
 <?php
 include_once('connect.php');
 $sql = "select * from admin where id = '" . $_SESSION["id"] . "'";
@@ -111,79 +111,9 @@ $row1 = mysqli_fetch_array($result);
 
 
                             <?php } else if ($_SESSION['user'] == 'doctor') { ?>
-                                <div class="row col-sm-12">
-                                    <h3>Selamat datang <?php echo 'Dr. ' . $_SESSION['fname']; ?></h3><br><br>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-c-green update-card">
-                                        <div class="card-block">
-                                            <div class="row align-items-end">
-                                                <div class="col-8">
 
-                                                    <h4 class="text-white">
-                                                        <?php
-                                                        $sql = "SELECT * FROM appointment WHERE `doctorid`=1 AND appointmentdate=' " . date("Y-m-d") . "' and delete_status='0'";
-                                                        $qsql = mysqli_query($conn, $sql);
-                                                        echo mysqli_num_rows($qsql);
-                                                        ?>
-                                                    </h4>
-                                                    <h6 class="text-white m-b-0">Pemeriksaan Baru</h6>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <canvas id="update-chart-2" height="50"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-c-pink update-card">
-                                        <div class="card-block">
-                                            <div class="row align-items-end">
-                                                <div class="col-8">
-
-                                                    <h4 class="text-white">
-                                                        <?php
-                                                        $sql = "SELECT * FROM patient WHERE status='Active' and delete_status='0'";
-                                                        $qsql = mysqli_query($conn, $sql);
-                                                        echo mysqli_num_rows($qsql);
-                                                        ?>
-                                                    </h4>
-                                                    <h6 class="text-white m-b-0">Total Pasien</h6>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <canvas id="update-chart-3" height="50"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="card bg-c-lite-green update-card">
-                                        <div class="card-block">
-                                            <div class="row align-items-end">
-                                                <div class="col-8">
-
-                                                    <h4 class="text-white">
-                                                        <?php
-                                                        $sql = "SELECT * FROM appointment WHERE status='Active' AND `doctorid`=1 AND appointmentdate=' " . date("Y-m-d") . "' and delete_status='0'";
-                                                        $qsql = mysqli_query($conn, $sql);
-                                                        echo mysqli_num_rows($qsql);
-                                                        ?>
-                                                    </h4>
-                                                    <h6 class="text-white m-b-0">Pemeriksaan hari ini
-                                                    </h6>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <canvas id="update-chart-4" height="50"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <iframe title="Xm_si" width="1366" height="768" src="https://app.powerbi.com/view?r=eyJrIjoiMjYxOTdlMDctYjk1MS00NmFiLTgzOTMtN2ZlYmI3YmExODZlIiwidCI6IjUyNjNjYzgxLTU5MTItNDJjNC1hYmMxLWQwZjFiNjY4YjUzMCIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
 
                             <?php } else if ($_SESSION['user'] == 'patient') {
 
@@ -328,7 +258,8 @@ $row1 = mysqli_fetch_array($result);
                                                     <tr>
                                                         <td>&nbsp;<?php echo $rspat['patientname'] ?><br>&nbsp;<?php echo $rspat['mobileno'] ?>
                                                         </td>
-                                                        <td>&nbsp; <?php echo date("d-M-Y", strtotime($rs['appointmentdate'])) ?>
+                                                        <td>&nbsp;
+                                                            <?php echo date("d-M-Y", strtotime($rs['appointmentdate'])) ?>
                                                             &nbsp;
                                                             <?php echo date("H:i A", strtotime($rs['appointmenttime'])) ?> </td>
                                                         <td>&nbsp;<?php echo $rsdept['departmentname'] ?? '' ?></td>

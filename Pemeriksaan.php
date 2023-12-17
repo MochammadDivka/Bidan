@@ -1,6 +1,6 @@
 <?php
 require_once('check_login.php');
-include('connect.php');
+include_once('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +14,9 @@ include('connect.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    body {
-        padding: 20px;
-    }
+        body {
+            padding: 20px;
+        }
     </style>
 </head>
 <?php
@@ -163,8 +163,7 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label for="Genetalia luar / dalam" class="col-sm-4 col-form-label">Genetalia luar /
                             dalam</label>
                         <div class="col-sm-8">
-                            <select required class="form-control" id="Genetalia luar / dalam"
-                                name="Genetalia luar / dalam">
+                            <select required class="form-control" id="Genetalia luar / dalam" name="Genetalia luar / dalam">
                                 <option value="-">-</option>
                                 <option value="Varises">Varises</option>
                                 <option value="Jengger">Jengger</option>
@@ -252,15 +251,15 @@ if (isset($_POST) && count($_POST) > 0) {
 
 if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
 ?>
-<script>
-Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Berhasil disimpan !",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
     $_SESSION['popup-sukses'] = false;
 }

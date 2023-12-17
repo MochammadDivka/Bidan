@@ -1,6 +1,6 @@
 <?php
 require_once('check_login.php');
-include('connect.php');
+include_once('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +14,9 @@ include('connect.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    body {
-        padding: 20px;
-    }
+        body {
+            padding: 20px;
+        }
     </style>
 </head>
 <?php
@@ -101,13 +101,11 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label class="col-sm-4 col-form-label">Muntah-Muntah</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="muntah" id="biasa" value="Biasa"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="muntah" id="biasa" value="Biasa" checked>
                                 <label class="form-check-label" for="biasa">Biasa</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="muntah" id="menerus"
-                                    value="Terus-menerus">
+                                <input class="form-check-input" type="radio" name="muntah" id="menerus" value="Terus-menerus">
                                 <label class="form-check-label" for="menerus">Terus-menerus</label>
                             </div>
                         </div>
@@ -117,13 +115,11 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label class="col-sm-4 col-form-label">Pusing-pusing</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pusing" id="biasa" value="Biasa"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="pusing" id="biasa" value="Biasa" checked>
                                 <label class="form-check-label" for="biasa">Biasa</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pusing" id="menerus"
-                                    value="Terus-menerus">
+                                <input class="form-check-input" type="radio" name="pusing" id="menerus" value="Terus-menerus">
                                 <label class="form-check-label" for="menerus">Terus-menerus</label>
                             </div>
                         </div>
@@ -236,13 +232,11 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label class="col-sm-4 col-form-label">Pasangan Sexual Istri</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasanganistri" id="satu" value="Satu"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="pasanganistri" id="satu" value="Satu" checked>
                                 <label class="form-check-label" for="ada">Satu</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasanganistri" id="lebih"
-                                    value="Lebih dari satu">
+                                <input class="form-check-input" type="radio" name="pasanganistri" id="lebih" value="Lebih dari satu">
                                 <label class="form-check-label" for="tidak">Lebih dari satu</label>
                             </div>
                         </div>
@@ -252,13 +246,11 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label class="col-sm-4 col-form-label">Pasangan Sexual Suami</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasangansuami" id="satu" value="Satu"
-                                    checked>
+                                <input class="form-check-input" type="radio" name="pasangansuami" id="satu" value="Satu" checked>
                                 <label class="form-check-label" for="ada">Satu</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasangansuami" id="lebih"
-                                    value="Lebih dari satu">
+                                <input class="form-check-input" type="radio" name="pasangansuami" id="lebih" value="Lebih dari satu">
                                 <label class="form-check-label" for="tidak">Lebih dari satu</label>
                             </div>
                         </div>
@@ -348,15 +340,15 @@ if (isset($_GET['RiwayatKehamilanSekarang-submit'])) {
 
 if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
 ?>
-<script>
-Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Berhasil disimpan !",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
     $_SESSION['popup-sukses'] = false;
 }

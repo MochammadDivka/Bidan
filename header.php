@@ -1,4 +1,4 @@
-<?php include('connect.php'); ?>
+<?php include_once('connect.php'); ?>
 
 <body>
     <?php
@@ -68,8 +68,7 @@
                         <a href="index.php">
 
                             <div class="text-center">
-                                <image class="profile-img" src="uploadImage/Logo/<?php echo $logo; ?>"
-                                    style="width: 50%"></image>
+                                <image class="profile-img" src="uploadImage/Logo/<?php echo $logo; ?>" style="width: 50%"></image>
                             </div>
                         </a>
                         <a class="mobile-options">
@@ -97,9 +96,9 @@
                         </ul>
                         <ul class="nav-right">
                             <style>
-                            .header-notification .dropdown-primary.dropdown .show-notification {
-                                display: none;
-                            }
+                                .header-notification .dropdown-primary.dropdown .show-notification {
+                                    display: none;
+                                }
                             </style>
                             <!-- <li class="header-notification">
                                 <div class="dropdown-primary dropdown">
@@ -155,13 +154,11 @@
                                         if ($_SESSION['user'] == 'admin') {
                                         ?>
 
-                                        <img src="uploadImage/Profile/<?php echo $_SESSION['image']; ?>"
-                                            class="img-radius" alt="User-Profile-Image" /><?php } ?>
+                                            <img src="uploadImage/Profile/<?php echo $_SESSION['image']; ?>" class="img-radius" alt="User-Profile-Image" /><?php } ?>
                                         <span><?php echo $_SESSION['fname']; ?></span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
-                                    <ul class="show-notification profile-notification dropdown-menu"
-                                        data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
 
                                         <li>
                                             <a href="profile.php">
@@ -189,19 +186,19 @@
 
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
             <script>
-            function confirmLogout() {
-                Swal.fire({
-                    title: 'Logout',
-                    text: 'Are you sure you want to logout?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, logout!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "logout.php";
-                    }
-                });
-            }
+                function confirmLogout() {
+                    Swal.fire({
+                        title: 'Logout',
+                        text: 'Are you sure you want to logout?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, logout!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "logout.php";
+                        }
+                    });
+                }
             </script>

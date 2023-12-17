@@ -1,9 +1,9 @@
 <?php
 require_once('check_login.php');
-include('head.php');
-include('header.php');
-include('sidebar.php');
-include('connect.php');
+include_once('head.php');
+include_once('header.php');
+include_once('sidebar.php');
+include_once('connect.php');
 
 if (isset($_POST['btn_submit'])) {
     if (isset($_GET['editid'])) {
@@ -220,7 +220,7 @@ if (isset($_GET['editid'])) {
     </div>
 </div>
 
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 
 <script type="text/javascript">
     $('#main').keyup(function() {

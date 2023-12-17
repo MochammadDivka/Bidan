@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connect.php');
+include_once('connect.php');
 
 if (isset($_POST['btn_register'])) {
     extract($_POST);
@@ -23,37 +23,37 @@ if (isset($_POST['btn_register'])) {
     $sql = "INSERT INTO patient(patientname,admissiondate,admissiontime,address,mobileno,city,pincode,loginid,password,bloodgroup,gender,dob,status) values('$_POST[patientname]','$admissionDate','$admissionTime','$_POST[address]','$_POST[mobilenumber]','$_POST[city]','$_POST[pincode]','$_POST[loginid]','$pass','$_POST[select2]','$_POST[gender]','$_POST[dateofbirth]','Active')";
 
     if (mysqli_query($conn, $sql)) { ?>
-<link rel="stylesheet" href="popup_style.css">
-<div class="popup popup--icon -success js_success-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Success
-        </h3>
-        <p>Daftar Berhasil</p>
-        <p>
-            <!-- // Registration successful, redirect to login page
+        <link rel="stylesheet" href="popup_style.css">
+        <div class="popup popup--icon -success js_success-popup popup--visible">
+            <div class="popup__background"></div>
+            <div class="popup__content">
+                <h3 class="popup__content__title">
+                    Success
+                </h3>
+                <p>Daftar Berhasil</p>
+                <p>
+                    <!-- // Registration successful, redirect to login page
         // echo "<script>alert('Registration Successful. You can now log in.');</script>"; -->
-            <?php echo "<script>setTimeout(\"location.href = 'login.php';\", 1500);</script>"; ?>
-        </p>
-    </div>
-</div>
-<?php
+                    <?php echo "<script>setTimeout(\"location.href = 'login.php';\", 1500);</script>"; ?>
+                </p>
+            </div>
+        </div>
+    <?php
     } else { ?>
-<div class="popup popup--icon -error js_error-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Error
-        </h3>
-        <p>Regristrasi Gagal. Silahkan Coba Lagi </p>
-        <p>
-            <a href="login.php"><button class="button button--error" data-for="js_error-popup">Close</button></a>
-        </p>
-    </div>
-</div>
+        <div class="popup popup--icon -error js_error-popup popup--visible">
+            <div class="popup__background"></div>
+            <div class="popup__content">
+                <h3 class="popup__content__title">
+                    Error
+                </h3>
+                <p>Regristrasi Gagal. Silahkan Coba Lagi </p>
+                <p>
+                    <a href="login.php"><button class="button button--error" data-for="js_error-popup">Close</button></a>
+                </p>
+            </div>
+        </div>
 
-<!-- // Registration failed
+        <!-- // Registration failed
         echo "<script>alert('Registration failed. Please try again.');</script>"; -->
 <?php
     }
@@ -120,21 +120,18 @@ while ($row = mysqli_fetch_array($query)) {
                                 <div class="form-group form-primary">
                                     <label for="patientname" class="sub-title" style="margin-bottom: 2px;">Nama
                                         Pasien</label>
-                                    <input type="text" name="patientname" class="form-control" required=""
-                                        placeholder="">
+                                    <input type="text" name="patientname" class="form-control" required="" placeholder="">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <label for="patientname" class="sub-title"
-                                        style="margin-bottom: 2px;">Alamat</label>
+                                    <label for="patientname" class="sub-title" style="margin-bottom: 2px;">Alamat</label>
                                     <input type="text" name="address" class="form-control" required="" placeholder="">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
                                     <label for="patientname" class="sub-title" style="margin-bottom: 2px;">No
                                         Telp</label>
-                                    <input type="number" name="mobilenumber" class="form-control" required=""
-                                        placeholder="">
+                                    <input type="number" name="mobilenumber" class="form-control" required="" placeholder="">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
@@ -154,10 +151,8 @@ while ($row = mysqli_fetch_array($query)) {
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <label for="patientname" class="sub-title"
-                                        style="margin-bottom: 2px;">Password</label>
-                                    <input type="password" name="password" class="form-control" required=""
-                                        placeholder="">
+                                    <label for="patientname" class="sub-title" style="margin-bottom: 2px;">Password</label>
+                                    <input type="password" name="password" class="form-control" required="" placeholder="">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
@@ -189,15 +184,13 @@ while ($row = mysqli_fetch_array($query)) {
                                 <div class="form-group form-primary">
                                     <label for="patientname" class="sub-title" style="margin-bottom: 2px;">Tanggal Lahir
                                     </label>
-                                    <input type="date" name="dateofbirth" class="form-control" required=""
-                                        placeholder="">
+                                    <input type="date" name="dateofbirth" class="form-control" required="" placeholder="">
                                     <span class="form-bar"></span>
                                 </div>
 
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button type="submit" name="btn_register"
-                                            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Register</button>
+                                        <button type="submit" name="btn_register" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Register</button>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -226,8 +219,7 @@ while ($row = mysqli_fetch_array($query)) {
     <script type="text/javascript" src="files/bower_components/i18next/js/i18next.min.js"></script>
     <script type="text/javascript" src="files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js">
     </script>
-    <script type="text/javascript"
-        src="files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
     <script type="text/javascript" src="files/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
     <script type="text/javascript" src="files/assets/js/common-pages.js"></script>
 </body>

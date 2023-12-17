@@ -1,5 +1,5 @@
 <?php
-include('connect.php');
+include_once('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +10,7 @@ include('connect.php');
     <title>Sidebar Menu</title>
     <link rel="stylesheet" href="sd.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
@@ -97,65 +96,65 @@ function checkProfileCompleteness($userData)
     </nav>
 
     <script>
-    $(".btn").click(function() {
-        $(this).toggleClass("click");
-        $(".sidebar").toggleClass("show");
-    });
+        $(".btn").click(function() {
+            $(this).toggleClass("click");
+            $(".sidebar").toggleClass("show");
+        });
 
-    $(".feat-btn").click(function() {
-        $("nav ul .feat-show").toggleClass("show");
-        $("nav ul .first").toggleClass("rotate");
-    });
+        $(".feat-btn").click(function() {
+            $("nav ul .feat-show").toggleClass("show");
+            $("nav ul .first").toggleClass("rotate");
+        });
 
-    $(".serv-btn").click(function() {
-        // Check profile completeness before allowing to navigate to appointment.php
-        if (!<?php echo json_encode($profileComplete); ?>) {
-            showProfileIncompleteAlert();
-            return false; // Prevent navigation to appointment.php
+        $(".serv-btn").click(function() {
+            // Check profile completeness before allowing to navigate to appointment.php
+            if (!<?php echo json_encode($profileComplete); ?>) {
+                showProfileIncompleteAlert();
+                return false; // Prevent navigation to appointment.php
+            }
+            $("nav ul .serv-show").toggleClass("show1");
+            $("nav ul .second").toggleClass("rotate");
+        });
+
+        $("nav ul li").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
+
+    <script>
+        function showProfileIncompleteAlert() {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Lengkapi profil Anda terlebih dahulu!',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "profile.php"; // Redirect to profile.php on "Ok"
+                }
+            });
         }
-        $("nav ul .serv-show").toggleClass("show1");
-        $("nav ul .second").toggleClass("rotate");
-    });
-
-    $("nav ul li").click(function() {
-        $(this).addClass("active").siblings().removeClass("active");
-    });
-
-    // Initialize Feather Icons
-    feather.replace();
-    </script>
-
-    <script>
-    function showProfileIncompleteAlert() {
-        Swal.fire({
-            title: 'Peringatan',
-            text: 'Lengkapi profil Anda terlebih dahulu!',
-            icon: 'warning',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Ok'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "profile.php"; // Redirect to profile.php on "Ok"
-            }
-        });
-    }
     </script>
     <script>
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Keluar',
-            text: 'Apakah anda yakin ingin keluar?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, keluar!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "logout.php";
-            }
-        });
-    }
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Keluar',
+                text: 'Apakah anda yakin ingin keluar?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, keluar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "logout.php";
+                }
+            });
+        }
     </script>
 
 </body>

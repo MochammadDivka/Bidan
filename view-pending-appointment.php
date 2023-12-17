@@ -1,11 +1,11 @@
 <?php require_once('check_login.php'); ?>
-<?php include('head.php'); ?>
+<?php include_once('head.php'); ?>
 <?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
-    include('header.php');
-    include('sidebar.php');
+    include_once('header.php');
+    include_once('sidebar.php');
 } ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<?php include('connect.php');
+<?php include_once('connect.php');
 if (isset($_GET['delid'])) {
     $sql = "UPDATE appointment SET delete_status='1' WHERE appointmentid='$_GET[delid]'";
     $qsql = mysqli_query($conn, $sql);
@@ -196,7 +196,7 @@ if (isset($_GET['id'])) { ?>
 </div>
 </div>
 </div>
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
     <div class="popup popup--icon -success js_success-popup popup--visible">
         <div class="popup__background"></div>

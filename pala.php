@@ -1,4 +1,4 @@
-<?php include('connect.php'); ?>
+<?php include_once('connect.php'); ?>
 
 <body>
 

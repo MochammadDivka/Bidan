@@ -1,6 +1,6 @@
 <?php
 require_once('check_login.php');
-include('connect.php');
+include_once('connect.php');
 
 ?>
 <!DOCTYPE html>
@@ -14,9 +14,9 @@ include('connect.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    body {
-        padding: 20px;
-    }
+        body {
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -53,40 +53,35 @@ include('connect.php');
                     <div class="form-group row">
                         <label for="Jumlah anak hidup" class="col-sm-4 col-form-label">Jumlah anak hidup</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Jumlah anak hidup"
-                                name="Jumlah anak hidup" />
+                            <input required type="text" class="form-control" id="Jumlah anak hidup" name="Jumlah anak hidup" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Keinginan punya anak lagi" class="col-sm-4 col-form-label">Keinginan punya anak
                             lagi</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Keinginan punya anak lagi"
-                                name="Keinginan punya anak lagi" />
+                            <input required type="text" class="form-control" id="Keinginan punya anak lagi" name="Keinginan punya anak lagi" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Saat ingin punya anak lagi" class="col-sm-4 col-form-label">Saat ingin punya anak
                             lagi</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Saat ingin punya anak lagi"
-                                name="Saat ingin punya anak lagi" />
+                            <input required type="text" class="form-control" id="Saat ingin punya anak lagi" name="Saat ingin punya anak lagi" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Status kehamilan saat ini" class="col-sm-4 col-form-label">Status kehamilan saat
                             ini</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Status kehamilan saat ini"
-                                name="Status kehamilan saat ini" />
+                            <input required type="text" class="form-control" id="Status kehamilan saat ini" name="Status kehamilan saat ini" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="Riwayat komplikasi kehamilan" class="col-sm-4 col-form-label">Riwayat komplikasi
                             kehamilan</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Riwayat komplikasi kehamilan"
-                                name="Riwayat komplikasi kehamilan" />
+                            <input required type="text" class="form-control" id="Riwayat komplikasi kehamilan" name="Riwayat komplikasi kehamilan" />
                         </div>
                     </div>
 
@@ -94,8 +89,7 @@ include('connect.php');
                         <label for="Sikap pasangan terhadap KB" class="col-sm-4 col-form-label">Sikap pasangan
                             terhadap KB</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="Sikap pasangan terhadap KB"
-                                name="Sikap pasangan terhadap KB" />
+                            <input required type="text" class="form-control" id="Sikap pasangan terhadap KB" name="Sikap pasangan terhadap KB" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -107,8 +101,7 @@ include('connect.php');
                                 <option value="">AIDS</option>
                                 <option value="">PMS</option>
                             </select>
-                            <input required type="text" class="form-control" id="Menjelaskan resiko"
-                                name="Menjelaskan resiko" style="max-width: 500px;" />
+                            <input required type="text" class="form-control" id="Menjelaskan resiko" name="Menjelaskan resiko" style="max-width: 500px;" />
                         </div>
                     </div>
 
@@ -116,16 +109,13 @@ include('connect.php');
                         <label for="Metoode ganda untuk akseptor KB yang resiko" class="col-sm-4 col-form-label">Metoode
                             ganda untuk akseptor KB yang resiko</label>
                         <div class="col-sm-8" style="display: flex; gap: 10px; max-height: 38px;">
-                            <select name="Metoode ganda untuk akseptor KB yang resiko option"
-                                id="Metoode ganda untuk akseptor KB yang resiko option" style="flex-grow: 1;">
+                            <select name="Metoode ganda untuk akseptor KB yang resiko option" id="Metoode ganda untuk akseptor KB yang resiko option" style="flex-grow: 1;">
                                 <option value="">-</option>
                                 <option value="">Tertular HIV</option>
                                 <option value="">AIDS</option>
                                 <option value="">PMS (pakai kondom)</option>
                             </select>
-                            <input required type="text" class="form-control"
-                                id="Metoode ganda untuk akseptor KB yang resiko"
-                                name="Metoode ganda untuk akseptor KB yang resiko" style="max-width: 500px;" />
+                            <input required type="text" class="form-control" id="Metoode ganda untuk akseptor KB yang resiko" name="Metoode ganda untuk akseptor KB yang resiko" style="max-width: 500px;" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -193,15 +183,15 @@ if (isset($_GET) || isset($_POST)) {
 
 if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
 ?>
-<script>
-Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Berhasil disimpan !",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
     $_SESSION['popup-sukses'] = false;
 }

@@ -2,7 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-include('head.php');
+include_once('head.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ include('head.php');
 <body class="fix-menu">
 
     <?php
-    include('connect.php');
+    include_once('connect.php');
     if (isset($_POST['btn_forgot'])) {
         $otp = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 8)), 0, 8);
         $text_email = $_POST['email'];

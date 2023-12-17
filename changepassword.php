@@ -1,12 +1,12 @@
 <?php require_once('check_login.php'); ?>
-<?php include('head.php'); ?>
+<?php include_once('head.php'); ?>
 <?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
-  include('header.php');
-  include('sidebar.php');
+  include_once('header.php');
+  include_once('sidebar.php');
 } ?>
 
 <?php
-include('connect.php');
+include_once('connect.php');
 
 if ($_SESSION["user"] == 'admin') {
   $q = "select * from  admin where id = '" . $_SESSION['id'] . "'";
@@ -187,7 +187,7 @@ if (isset($_POST["btn_password"])) {
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 
 <link rel="stylesheet" href="popup_style.css">
 <?php if (!empty($_SESSION['success'])) {  ?>

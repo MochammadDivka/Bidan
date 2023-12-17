@@ -1,9 +1,9 @@
 <?php
 require_once('check_login.php');
-include('head.php');
-include('header.php');
-include('sidebar.php');
-include('connect.php');
+include_once('head.php');
+include_once('header.php');
+include_once('sidebar.php');
+include_once('connect.php');
 
 if (isset($_POST["btn_web"])) {
     $business_name = $_POST['business_name'];
@@ -46,8 +46,17 @@ if (isset($_POST["btn_web"])) {
     ");
     $q1->bind_param(
         "sssssssssss",
-        $business_name, $business_email, $business_web, $portal_addr, $addr,
-        $curr_sym, $curr_position, $front_end_en, $date_format, $def_tax, $logo
+        $business_name,
+        $business_email,
+        $business_web,
+        $portal_addr,
+        $addr,
+        $curr_sym,
+        $curr_position,
+        $front_end_en,
+        $date_format,
+        $def_tax,
+        $logo
     );
 
     if ($q1->execute()) {
@@ -67,113 +76,109 @@ while ($row = mysqli_fetch_array($query)) {
 
 ?>
 
-  <!-- Page wrapper  -->
-        <div class="page-wrapper">
-            <!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Website Management</h3> </div>
-                <div class="col-md-7 align-self-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Website Management</li>
-                    </ol>
+<!-- Page wrapper  -->
+<div class="page-wrapper">
+    <!-- Bread crumb -->
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-primary">Website Management</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Website Management</li>
+            </ol>
+        </div>
+    </div>
+    <!-- End Bread crumb -->
+    <!-- Container fluid  -->
+    <div class="container-fluid">
+        <!-- Start Page Content -->
+
+        <!-- /# row -->
+        <div class="row">
+            <div class="col-lg-8" style="    margin-left: 10%;">
+                <div class="card">
+                    <div class="card-title">
+
+                    </div>
+                    <div class="card-body">
+                        <div class="input-states">
+                            <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">Logo</label>
+                                        <div class="col-sm-9">
+                                            <image class="profile-img" src="uploadImage/Logo/<?= $logo ?>" style="height:35%;width:25%;">
+                                                <input type="hidden" value="<?= $logo ?>" name="old_logo">
+                                                <input type="file" class="form-control" name="logo">
+                                        </div>
+                                    </div>
+                                </div <button type="submit" name="btn_web" class="btn btn-primary btn-flat m-b-30 m-t-30">Update</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <!-- Start Page Content -->
-                
-                <!-- /# row -->
-                <div class="row">
-                    <div class="col-lg-8" style="    margin-left: 10%;">
-                        <div class="card">
-                            <div class="card-title">
-                               
-                            </div>
-                            <div class="card-body">
-                                <div class="input-states">
-                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-                                       <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-3 control-label">Logo</label>
-                        <div class="col-sm-9">
-                            <image class="profile-img" src="uploadImage/Logo/<?= $logo ?>" style="height:35%;width:25%;">
-                            <input type="hidden" value="<?= $logo ?>" name="old_logo">
-                            <input type="file" class="form-control" name="logo">
-                        </div>
-                    </div>
-                </div
 
-                                        
+        </div>
 
 
+        <!-- /# row -->
 
-                                        <button type="submit" name="btn_web" class="btn btn-primary btn-flat m-b-30 m-t-30">Update</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  
+        <!-- End PAge Content -->
+
+
+        <?php include_once('footer.php'); ?>
+
+        <link rel="stylesheet" href="popup_style.css">
+        <?php if (!empty($_SESSION['success'])) {  ?>
+            <div class="popup popup--icon -success js_success-popup popup--visible">
+                <div class="popup__background"></div>
+                <div class="popup__content">
+                    <h3 class="popup__content__title">
+                        Success
+                        </h1>
+                        <p><?php echo $_SESSION['success']; ?></p>
+                        <p>
+                            <button class="button button--success" data-for="js_success-popup">Close</button>
+                        </p>
                 </div>
-                
-               
-                <!-- /# row -->
+            </div>
+        <?php unset($_SESSION["success"]);
+        } ?>
+        <?php if (!empty($_SESSION['error'])) {  ?>
+            <div class="popup popup--icon -error js_error-popup popup--visible">
+                <div class="popup__background"></div>
+                <div class="popup__content">
+                    <h3 class="popup__content__title">
+                        Error
+                        </h1>
+                        <p><?php echo $_SESSION['error']; ?></p>
+                        <p>
+                            <button class="button button--error" data-for="js_error-popup">Close</button>
+                        </p>
+                </div>
+            </div>
+        <?php unset($_SESSION["error"]);
+        } ?>
+        <script>
+            var addButtonTrigger = function addButtonTrigger(el) {
+                el.addEventListener('click', function() {
+                    var popupEl = document.querySelector('.' + el.dataset.for);
+                    popupEl.classList.toggle('popup--visible');
+                });
+            };
 
-                <!-- End PAge Content -->
-           
+            Array.from(document.querySelectorAll('button[data-for]')).
+            forEach(addButtonTrigger);
+        </script>
 
-<?php include('footer.php');?>
+        <script type="text/javascript">
+            function refresh_cls() {
 
-<link rel="stylesheet" href="popup_style.css">
-<?php if(!empty($_SESSION['success'])) {  ?>
-<div class="popup popup--icon -success js_success-popup popup--visible">
-  <div class="popup__background"></div>
-  <div class="popup__content">
-    <h3 class="popup__content__title">
-      Success 
-    </h1>
-    <p><?php echo $_SESSION['success']; ?></p>
-    <p>
-      <button class="button button--success"  data-for="js_success-popup">Close</button>
-    </p>
-  </div>
-</div>
-<?php unset($_SESSION["success"]);  
-} ?>
-<?php if(!empty($_SESSION['error'])) {  ?>
-<div class="popup popup--icon -error js_error-popup popup--visible">
-  <div class="popup__background"></div>
-  <div class="popup__content">
-    <h3 class="popup__content__title">
-      Error 
-    </h1>
-    <p><?php echo $_SESSION['error']; ?></p>
-    <p>
-      <button class="button button--error" data-for="js_error-popup">Close</button>
-    </p>
-  </div>
-</div>
-<?php unset($_SESSION["error"]);  } ?>
-    <script>
-      var addButtonTrigger = function addButtonTrigger(el) {
-  el.addEventListener('click', function () {
-    var popupEl = document.querySelector('.' + el.dataset.for);
-    popupEl.classList.toggle('popup--visible');
-  });
-};
-
-Array.from(document.querySelectorAll('button[data-for]')).
-forEach(addButtonTrigger);
-    </script>
-
-    <script type="text/javascript">
-    function refresh_cls() {
-      
-                  setTimeout(function(){// wait for 5 secs(2)
-                  location.reload(); // then reload the page.(3)
-             }, 1000);
-      }  
-    </script>
+                setTimeout(function() { // wait for 5 secs(2)
+                    location.reload(); // then reload the page.(3)
+                }, 1000);
+            }
+        </script>

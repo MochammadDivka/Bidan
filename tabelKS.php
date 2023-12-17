@@ -1,10 +1,10 @@
 <?php require_once('check_login.php');
-include('head.php');
-include('pala.php');
-include('connect.php');
+include_once('head.php');
+include_once('pala.php');
+include_once('connect.php');
 ?>
 <?php if ($_SESSION['user'] == 'patient') {
-    include('jajal.php');
+    include_once('jajal.php');
 } ?>
 <?php
 
@@ -106,7 +106,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                         <?php
                                         if ($_SESSION['user'] == 'doctor') {
                                         ?>
-                                        <th>Action</th>
+                                            <th>Action</th>
                                         <?php
                                         }
                                         ?>
@@ -122,23 +122,22 @@ if (isset($_GET['action'], $_POST['delete'])) {
 
                                     while ($array1 = mysqli_fetch_assoc($rskehamilan)) {
                                     ?>
-                                    <tr>
-                                        <td><?php echo $array1['tgl'] ?></td>
-                                        <td><?php echo $array1['bb'] ?></td>
-                                        <td><?php echo $array1['tekanandarah'] ?></td>
-                                        <td><?php echo $array1['tinggi_fundusuteri'] ?></td>
-                                        <td><?php echo $array1['letakjanin'] ?></td>
-                                        <td><?php echo $array1['djj'] ?></td>
-                                        <td><?php echo $array1['oed'] ?></td>
-                                        <td><?php echo $array1['keluhan'] ?></td>
-                                        <td><?php echo $array1['penyuluhan'] ?></td>
-                                        <?php
+                                        <tr>
+                                            <td><?php echo $array1['tgl'] ?></td>
+                                            <td><?php echo $array1['bb'] ?></td>
+                                            <td><?php echo $array1['tekanandarah'] ?></td>
+                                            <td><?php echo $array1['tinggi_fundusuteri'] ?></td>
+                                            <td><?php echo $array1['letakjanin'] ?></td>
+                                            <td><?php echo $array1['djj'] ?></td>
+                                            <td><?php echo $array1['oed'] ?></td>
+                                            <td><?php echo $array1['keluhan'] ?></td>
+                                            <td><?php echo $array1['penyuluhan'] ?></td>
+                                            <?php
                                             if ($_SESSION['user'] == 'doctor') {
                                             ?>
-                                        <td>
-                                            <form action="?action=delete" method="post">
-                                                <button class="btn btn-md btn-danger" type="submit" name="delete"
-                                                    value="<?php echo $array1['id'] ?>" ">DELETE</button>
+                                                <td>
+                                                    <form action="?action=delete" method="post">
+                                                        <button class="btn btn-md btn-danger" type="submit" name="delete" value="<?php echo $array1['id'] ?>" ">DELETE</button>
                                                 </form>
                                             </td>
                                             <?php
@@ -157,10 +156,9 @@ if (isset($_GET['action'], $_POST['delete'])) {
                 </div>
 
                 <div class=" col-sm-4 mb-4">
-                                                    <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>"
-                                                        class="btn btn-secondary custom-btn">
-                                                        <i class="fas fa-arrow-left"></i> Kembali
-                                                    </a>
+                                                            <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>" class="btn btn-secondary custom-btn">
+                                                                <i class="fas fa-arrow-left"></i> Kembali
+                                                            </a>
                         </div>
 
 
@@ -178,62 +176,62 @@ if (isset($_GET['action'], $_POST['delete'])) {
 </div>
 </div>
 </div>
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
-<div class="popup popup--icon -success js_success-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Success
-            </h1>
-            <p><?php echo $_SESSION['success']; ?></p>
-            <p>
-                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
-            </p>
+    <div class="popup popup--icon -success js_success-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Success
+                </h1>
+                <p><?php echo $_SESSION['success']; ?></p>
+                <p>
+                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                    <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
+                </p>
+        </div>
     </div>
-</div>
 <?php unset($_SESSION["success"]);
 } ?>
 <?php if (!empty($_SESSION['error'])) {  ?>
-<div class="popup popup--icon -error js_error-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Error
-            </h1>
-            <p><?php echo $_SESSION['error']; ?></p>
-            <p>
-                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
-            </p>
+    <div class="popup popup--icon -error js_error-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Error
+                </h1>
+                <p><?php echo $_SESSION['error']; ?></p>
+                <p>
+                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                    <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
+                </p>
+        </div>
     </div>
-</div>
 <?php unset($_SESSION["error"]);
 } ?>
 <script>
-var addButtonTrigger = function addButtonTrigger(el) {
-    el.addEventListener('click', function() {
-        var popupEl = document.querySelector('.' + el.dataset.for);
-        popupEl.classList.toggle('popup--visible');
-    });
-};
+    var addButtonTrigger = function addButtonTrigger(el) {
+        el.addEventListener('click', function() {
+            var popupEl = document.querySelector('.' + el.dataset.for);
+            popupEl.classList.toggle('popup--visible');
+        });
+    };
 
-Array.from(document.querySelectorAll('button[data-for]')).
-forEach(addButtonTrigger);
+    Array.from(document.querySelectorAll('button[data-for]')).
+    forEach(addButtonTrigger);
 </script>
 <?php
 if (isset($_SESSION['popup-delete-sukses']) && $_SESSION['popup-delete-sukses'] == true) {
 ?>
-<script>
-Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Berhasil dihapus !",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil dihapus !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
     $_SESSION['popup-delete-sukses'] = false;
 }

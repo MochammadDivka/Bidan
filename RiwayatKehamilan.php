@@ -1,6 +1,6 @@
 <?php
 require_once('check_login.php');
-include('connect.php');
+include_once('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +14,9 @@ include('connect.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    body {
-        padding: 20px;
-    }
+        body {
+            padding: 20px;
+        }
     </style>
 </head>
 <?php
@@ -52,8 +52,7 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                     <div class="form-group row">
                         <label for="nama_pasien" class="col-sm-4 col-form-label">Nama Pasien</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="nama_pasien" name="nama_pasien"
-                                value="<?php echo $nama_pasien; ?>" readonly />
+                            <input required type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="<?php echo $nama_pasien; ?>" readonly />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -83,13 +82,11 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                         <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="Jkanak" id="perempuan"
-                                    value="Perempuan" checked>
+                                <input class="form-check-input" type="radio" name="Jkanak" id="perempuan" value="Perempuan" checked>
                                 <label class="form-check-label" for="perempuan">Perempuan</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="Jkanak" id="laki-laki"
-                                    value="Laki-Laki">
+                                <input class="form-check-input" type="radio" name="Jkanak" id="laki-laki" value="Laki-Laki">
                                 <label class="form-check-label" for="laki-laki">Laki-Laki</label>
                             </div>
                         </div>
@@ -106,8 +103,7 @@ if (isset($_GET['setid_kunjungan_ulang'])) {
                     <div class="form-group row">
                         <label for="cara_persalinan" class="col-sm-4 col-form-label">Cara Persalinan</label>
                         <div class="col-sm-8">
-                            <input required type="text" class="form-control" id="cara_persalinan"
-                                name="cara_persalinan" />
+                            <input required type="text" class="form-control" id="cara_persalinan" name="cara_persalinan" />
                         </div>
                     </div>
 
@@ -199,15 +195,15 @@ if (isset($_GET['RiwayatKehamilan-submit'])) {
 
 if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
 ?>
-<script>
-Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Berhasil disimpan !",
-    showConfirmButton: false,
-    timer: 1500
-});
-</script>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
     $_SESSION['popup-sukses'] = false;
 }

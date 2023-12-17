@@ -1,7 +1,7 @@
 <?php require_once('check_login.php');
-include('head.php');
-include('pala.php');
-include('connect.php');
+include_once('head.php');
+include_once('pala.php');
+include_once('connect.php');
 session_start();
 $_SESSION['proses_kunjungan_ulang'] = isset($_GET['prosesid']) ? $_GET['prosesid'] :  $_SESSION['proses_kunjungan_ulang'] ?? null;
 
@@ -246,4 +246,4 @@ if ($_SESSION['proses_kunjungan_ulang'] == null) {
 
 
 
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>

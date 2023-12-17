@@ -32,7 +32,7 @@
 <body class="fix-menu">
 
     <?php
-    include('connect.php');
+    include_once('connect.php');
     extract($_POST);
 
     if (isset($_POST['btn_login'])) {

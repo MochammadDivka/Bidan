@@ -1,11 +1,11 @@
 <?php
 // session_start();
 require_once('check_login.php');
-include('head.php');
+include_once('head.php');
 if ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') {
-    include('pala.php');
+    include_once('pala.php');
 }
-include('connect.php');
+include_once('connect.php');
 
 
 switch ($_SESSION) {
@@ -172,7 +172,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
 </div>
 </div>
 </div>
-<?php include('footer.php'); ?>
+<?php include_once('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
     <div class="popup popup--icon -success js_success-popup popup--visible">
         <div class="popup__background"></div>

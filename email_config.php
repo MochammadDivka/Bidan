@@ -1,10 +1,10 @@
 <?php require_once('check_login.php'); ?>
-<?php include('head.php'); ?>
-<?php include('header.php'); ?>
-<?php include('sidebar.php'); ?>
-
+<?php include_once('head.php'); ?>
+<?php include_once('header.php'); ?>
+<?php include_once('sidebar.php'); ?>
+w
 <?php
-include('connect.php');
+include_once('connect.php');
 if (isset($_POST["btn_mail"])) {
     extract($_POST);
 
@@ -137,4 +137,4 @@ while ($row = mysqli_fetch_array($query)) {
         <!-- End PAge Content -->
 
 
-        <?php include('footer.php'); ?>
+        <?php include_once('footer.php'); ?>
