@@ -11,20 +11,20 @@ if (isset($_POST['btn_submit'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssisssidi", $_POST['doctorname'], $_POST['mobilenumber'], $_POST['department'], $_POST['loginid'], $_POST['status'], $_POST['education'], $_POST['experience'], $_POST['consultancy_charge'], $_GET['editid']);
         if ($stmt->execute()) {
-            ?>
+?>
             <div class="popup popup--icon -success js_success-popup popup--visible">
                 <div class="popup__background"></div>
                 <div class="popup__content">
                     <h3 class="popup__content__title">
                         Success
                     </h3>
-                    <p>Doctor Record Updated Successfully</p>
+                    <p>Bidan berhasil disimpan !</p>
                     <p>
                         <?php echo "<script>setTimeout(\"location.href = 'view-doctor.php';\",1500);</script>"; ?>
                     </p>
                 </div>
             </div>
-            <?php
+        <?php
         } else {
             echo $stmt->error;
         }
@@ -39,7 +39,7 @@ if (isset($_POST['btn_submit'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssisssiss", $_POST['doctorname'], $_POST['mobilenumber'], $_POST['department'], $_POST['loginid'], $passw, $_POST['status'], $_POST['education'], $_POST['experience'], $_POST['consultancy_charge']);
         if ($stmt->execute()) {
-            ?>
+        ?>
             <div class="popup popup--icon -success js_success-popup popup--visible">
                 <div class="popup__background"></div>
                 <div class="popup__content">
@@ -52,7 +52,7 @@ if (isset($_POST['btn_submit'])) {
                     </p>
                 </div>
             </div>
-            <?php
+<?php
         } else {
             echo $stmt->error;
         }
@@ -79,7 +79,7 @@ if (isset($_GET['editid'])) {
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Doctor</h4>
+                                    <h4>Kebidanan</h4>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +89,8 @@ if (isset($_GET['editid'])) {
                                     <li class="breadcrumb-item">
                                         <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-                                    <li class="breadcrumb-item"><a>Doctor</a></li>
-                                    <li class="breadcrumb-item"><a href="add_user.php">Doctor</a></li>
+                                    <li class="breadcrumb-item"><a>Bidan</a></li>
+                                    <li class="breadcrumb-item"><a href="add_user.php">Bidan</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -105,22 +105,21 @@ if (isset($_GET['editid'])) {
                                 <div class="card-block">
                                     <form id="main" method="post" action="" enctype="multipart/form-data">
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Doctor Name</label>
+                                            <label class="col-sm-2 col-form-label">Nama Bidan</label>
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" name="doctorname" id="doctorname" placeholder="Enter name...." required="" value="<?php if (isset($_GET['editid'])) {
-                                                    echo $rsedit['doctorname'];
-                                                } ?>">
+                                                                                                                                                                                echo $rsedit['doctorname'];
+                                                                                                                                                                            } ?>">
                                                 <span class="messages"></span>
                                             </div>
-                                            <label class="col-sm-2 col-form-label">Mobile No</label>
+                                            <label class="col-sm-2 col-form-label">No Telp</label>
                                             <div class="col-sm-4">
-                                                <input type="number" class="form-control" name="mobilenumber" id="mobilenumber" placeholder="Enter mobilenumber...." required=""
-                                                       value="<?php echo $rsedit['mobileno']; ?>">
-                                                <span class "messages" > </span>
+                                                <input type="number" class="form-control" name="mobilenumber" id="mobilenumber" placeholder="Enter mobilenumber...." required="" value="<?php echo $rsedit['mobileno']; ?>">
+                                                <span class "messages"> </span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Department</label>
+                                            <label class="col-sm-2 col-form-label">Layanan</label>
                                             <div class="col-sm-4">
                                                 <select class="form-control" name="department" id="department" placeholder="Enter lastname...." required="">
                                                     <option value="">-- Select One --</option>
@@ -140,11 +139,11 @@ if (isset($_GET['editid'])) {
                                                 </select>
                                                 <span class="messages"></span>
                                             </div>
-                                            <label class="col-sm-2 col-form-label">Login Id</label>
+                                            <label class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-4">
                                                 <input class="form-control" type="text" name="loginid" id="loginid" value="<?php if (isset($_GET['editid'])) {
-                                                    echo $rsedit['loginid'];
-                                                } ?>"/>
+                                                                                                                                echo $rsedit['loginid'];
+                                                                                                                            } ?>" />
                                                 <span class="messages"></span>
                                             </div>
                                         </div>
@@ -152,54 +151,53 @@ if (isset($_GET['editid'])) {
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Password</label>
                                                 <div class="col-sm-4">
-                                                    <input class="form-control" type="password" name="password" id="password"/>
+                                                    <input class="form-control" type="password" name="password" id="password" pattern=".{8,}" required />
                                                     <span class="messages"></span>
                                                 </div>
                                                 <label class="col-sm-2 col-form-label">Confirm Password</label>
                                                 <div class="col-sm-4">
-                                                    <input class="form-control" type="password" name="cnfirmpassword" id="cnfirmpassword"/>
+                                                    <input class="form-control" type="password" name="cnfirmpassword" id="cnfirmpassword" pattern=".{8,}" required />
                                                     <span class="messages" id="confirm-pw" style="color: red;"></span>
                                                 </div>
                                             </div>
+
                                         <?php } ?>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Education</label>
+                                            <label class="col-sm-2 col-form-label">Terakhir pendidikan</label>
                                             <div class="col-sm-4">
                                                 <input class="form-control" type="text" name="education" id="education" value="<?php if (isset($_GET['editid'])) {
-                                                    echo $rsedit['education'];
-                                                } ?>"/>
+                                                                                                                                    echo $rsedit['education'];
+                                                                                                                                } ?>" />
                                             </div>
                                             <label class="col-sm-2 col-form-label">Experience</label>
                                             <div class="col-sm-4">
-                                                <input class="form-control" type="text" name="experience" id="experience"
-                                                       value="<?php if (isset($_GET['editid'])) {
-                                                           echo $rsedit['experience'];
-                                                       } ?>"/>
+                                                <input class="form-control" type="text" name="experience" id="experience" value="<?php if (isset($_GET['editid'])) {
+                                                                                                                                        echo $rsedit['experience'];
+                                                                                                                                    } ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Consultancy Charge</label>
                                             <div class="col-sm-4">
-                                                <input class="form-control" type="text" name="consultancy_charge" id="consultancy_charge"
-                                                       value="<?php if (isset($_GET['editid'])) {
-                                                           echo $rsedit['consultancy_charge'];
-                                                       } ?>"/>
+                                                <input class="form-control" type="text" name="consultancy_charge" id="consultancy_charge" value="<?php if (isset($_GET['editid'])) {
+                                                                                                                                                        echo $rsedit['consultancy_charge'];
+                                                                                                                                                    } ?>" />
                                             </div>
                                             <label class="col-sm-2 col-form-label">Status</label>
                                             <div class="col-sm-4">
                                                 <select name="status" id="status" class="form-control" required="">
                                                     <option value="">-- Select One --</option>
                                                     <option value="Active" <?php if (isset($_GET['editid'])) {
-                                                        if ($rsedit['status'] == 'Active') {
-                                                            echo 'selected';
-                                                        }
-                                                    } ?>>Active
+                                                                                if ($rsedit['status'] == 'Active') {
+                                                                                    echo 'selected';
+                                                                                }
+                                                                            } ?>>Active
                                                     </option>
                                                     <option value="Inactive" <?php if (isset($_GET['editid'])) {
-                                                        if ($rsedit['status'] == 'Inactive') {
-                                                            echo 'selected';
-                                                        }
-                                                    } ?>>Inactive
+                                                                                    if ($rsedit['status'] == 'Inactive') {
+                                                                                        echo 'selected';
+                                                                                    }
+                                                                                } ?>>Inactive
                                                     </option>
                                                 </select>
                                                 <span class="messages"></span>
@@ -225,17 +223,17 @@ if (isset($_GET['editid'])) {
 <?php include('footer.php'); ?>
 
 <script type="text/javascript">
-    $('#main').keyup(function () {
+    $('#main').keyup(function() {
         $('#confirm-pw').html('');
     });
 
-    $('#cnfirmpassword').change(function () {
+    $('#cnfirmpassword').change(function() {
         if ($('#cnfirmpassword').val() !== $('#password').val()) {
             $('#confirm-pw').html('Password Not Match');
         }
     });
 
-    $('#password').change(function () {
+    $('#password').change(function() {
         if ($('#cnfirmpassword').val() !== $('#password').val()) {
             $('#confirm-pw').html('Password Not Match');
         }

@@ -8,20 +8,20 @@ if (isset($_GET['id'])) {
     $qsql = mysqli_query($conn, $sql);
     if (mysqli_affected_rows($conn) == 1) {
 ?>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-<div class="popup popup--icon -success js_success-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Success
-        </h3>
-        <p>Visiting Hour record deleted successfully.</p>
-        <p>
-            <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-            <?php echo "<script>setTimeout(\"location.href = 'view-visiting-hour.php';\",1500);</script>"; ?>
-        </p>
-    </div>
-</div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <div class="popup popup--icon -success js_success-popup popup--visible">
+            <div class="popup__background"></div>
+            <div class="popup__content">
+                <h3 class="popup__content__title">
+                    Success
+                </h3>
+                <p>Visiting Hour record deleted successfully.</p>
+                <p>
+                    <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
+                    <?php echo "<script>setTimeout(\"location.href = 'view-visiting-hour.php';\",1500);</script>"; ?>
+                </p>
+            </div>
+        </div>
 <?php
 
     }
@@ -29,20 +29,19 @@ if (isset($_GET['id'])) {
 ?>
 <?php
 if (isset($_GET['delid'])) { ?>
-<div class="popup popup--icon -question js_question-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Sure
-            </h1>
-            <p>Are You Sure To Delete This Record?</p>
-            <p>
-                <a href="view-visiting-hour.php?id=<?php echo $_GET['delid']; ?>" class="button button--success"
-                    data-for="js_success-popup">Yes</a>
-                <a href="view-visiting-hour.php" class="button button--error" data-for="js_success-popup">No</a>
-            </p>
+    <div class="popup popup--icon -question js_question-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Sure
+                </h1>
+                <p>Are You Sure To Delete This Record?</p>
+                <p>
+                    <a href="view-visiting-hour.php?id=<?php echo $_GET['delid']; ?>" class="button button--success" data-for="js_success-popup">Yes</a>
+                    <a href="view-visiting-hour.php" class="button button--error" data-for="js_success-popup">No</a>
+                </p>
+        </div>
     </div>
-</div>
 <?php } ?>
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -100,16 +99,12 @@ if (isset($_GET['delid'])) { ?>
                                         while ($rspatient = mysqli_fetch_array($qsqlpatient)) {
                                             $adawd = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM patient WHERE patientid = '$rspatient[patientid]'"));
                                         ?>
-                                        <tr>
-                                            <td><?php echo $adawd['patientname'] ?></td>
-                                            <td> <a href='?set-selesai= <?php echo $rspatient['id'] ?>'
-                                                    class='btn btn-xs btn-danger'>Simpan</a></td>
-                                            <link rel="stylesheet"
-                                                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-                                            <td> <a href='proses.php?prosesid=<?php echo $rspatient['id'] ?>'
-                                                    class='btn btn-xs btn-primary'>Periksa <i
-                                                        class="fas fa-arrow-right"></i></a></td>
-                                        </tr>
+                                            <tr>
+                                                <td><?php echo $adawd['patientname'] ?></td>
+                                                <td> <a href='?set-selesai= <?php echo $rspatient['id'] ?>' class='btn btn-xs btn-danger'>Simpan</a></td>
+                                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+                                                <td> <a href='proses.php?prosesid=<?php echo $rspatient['id'] ?>' class='btn btn-xs btn-primary'>Periksa <i class="fas fa-arrow-right"></i></a></td>
+                                            </tr>
                                         <?php
                                             if (isset($_GET['set-selesai'])) {
                                                 mysqli_query($conn, "UPDATE `proses` SET `status`='selesai' WHERE id = '{$_GET['set-selesai']}'");
@@ -141,45 +136,45 @@ if (isset($_GET['delid'])) { ?>
 </div>
 <?php include('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
-<div class="popup popup--icon -success js_success-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Success
-            </h1>
-            <p><?php echo $_SESSION['success']; ?></p>
-            <p>
-                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
-            </p>
+    <div class="popup popup--icon -success js_success-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Success
+                </h1>
+                <p><?php echo $_SESSION['success']; ?></p>
+                <p>
+                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                    <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
+                </p>
+        </div>
     </div>
-</div>
 <?php unset($_SESSION["success"]);
 } ?>
 <?php if (!empty($_SESSION['error'])) {  ?>
-<div class="popup popup--icon -error js_error-popup popup--visible">
-    <div class="popup__background"></div>
-    <div class="popup__content">
-        <h3 class="popup__content__title">
-            Error
-            </h1>
-            <p><?php echo $_SESSION['error']; ?></p>
-            <p>
-                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
-            </p>
+    <div class="popup popup--icon -error js_error-popup popup--visible">
+        <div class="popup__background"></div>
+        <div class="popup__content">
+            <h3 class="popup__content__title">
+                Error
+                </h1>
+                <p><?php echo $_SESSION['error']; ?></p>
+                <p>
+                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                    <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
+                </p>
+        </div>
     </div>
-</div>
 <?php unset($_SESSION["error"]);
 } ?>
 <script>
-var addButtonTrigger = function addButtonTrigger(el) {
-    el.addEventListener('click', function() {
-        var popupEl = document.querySelector('.' + el.dataset.for);
-        popupEl.classList.toggle('popup--visible');
-    });
-};
+    var addButtonTrigger = function addButtonTrigger(el) {
+        el.addEventListener('click', function() {
+            var popupEl = document.querySelector('.' + el.dataset.for);
+            popupEl.classList.toggle('popup--visible');
+        });
+    };
 
-Array.from(document.querySelectorAll('button[data-for]')).
-forEach(addButtonTrigger);
+    Array.from(document.querySelectorAll('button[data-for]')).
+    forEach(addButtonTrigger);
 </script>

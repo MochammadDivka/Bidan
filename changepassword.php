@@ -1,7 +1,9 @@
 <?php require_once('check_login.php'); ?>
 <?php include('head.php'); ?>
-<?php include('header.php'); ?>
-<?php include('sidebar.php'); ?>
+<?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
+  include('header.php');
+  include('sidebar.php');
+} ?>
 
 <?php
 include('connect.php');
@@ -37,12 +39,12 @@ if (isset($_POST["btn_password"])) {
   $confirm =  hash('sha256', $salt . $confirm_new);
 
   if ($db_pass != $old_pass) { ?>
-    <?php $_SESSION['error'] = 'Old Password not matched'; ?>
+    <?php $_SESSION['error'] = 'Kata sandi lama tidak sesuai'; ?>
     <!--  <script>
     alert('OLD Paasword not matched');
     </script> -->
   <?php } else if ($new_pass != $confirm) { ?>
-    <?php $_SESSION['error'] = 'NEW Password and CONFIRM password not Matched'; ?>
+    <?php $_SESSION['error'] = 'Kata sandi baru dan konfirmasi kata sandi tidak sesuai'; ?>
     <!--  <script>
     alert('NEW Password and CONFIRM password not Matched');
     </script> -->
@@ -59,13 +61,18 @@ if (isset($_POST["btn_password"])) {
 
     $res = $conn->query($sql);
   ?>
+
+    <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Bq1kOasFEiQVG5l5d7We5kWVw+LlP2HJRnbSH26T1j7Q0zaMM5eUC4RQYOYc7bLrsCcrzW+HHUJBK2pQgA2s9g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+
     <div class="popup popup--icon -success js_success-popup popup--visible">
       <div class="popup__background"></div>
       <div class="popup__content">
         <h3 class="popup__content__title">
-          Success
+          Berhasil !!
         </h3>
-        <p>Password changed Successfully...</p>
+        <p>Kata sandi telah diperbarui...</p>
         <p>
           <?php echo "<script>setTimeout(\"location.href = 'changepassword.php';\",1500);</script>"; ?>
         </p>
@@ -89,7 +96,7 @@ if (isset($_POST["btn_password"])) {
             <div class="col-lg-8">
               <div class="page-header-title">
                 <div class="d-inline">
-                  <h4>Change Password</h4>
+                  <h4>Ganti Kata Sandi</h4>
                   <!-- <span>Lorem ipsum dolor sit <code>amet</code>, consectetur adipisicing elit</span> -->
                 </div>
               </div>
@@ -100,7 +107,7 @@ if (isset($_POST["btn_password"])) {
                   <li class="breadcrumb-item">
                     <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
                   </li>
-                  <li class="breadcrumb-item"><a href="changepassword.php">Change Password</a>
+                  <li class="breadcrumb-item"><a href="changepassword.php">Ganti Kata Sandi</a>
                   </li>
                 </ul>
               </div>
@@ -121,24 +128,24 @@ if (isset($_POST["btn_password"])) {
                 <div class="card-block">
                   <form id="main" method="POST">
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label">Old Password</label>
+                      <label class="col-sm-2 col-form-label">Kata Sandi Lama</label>
                       <div class="col-sm-10">
-                        <input type="password" class="form-control" id="password" name="old_password" placeholder="Old Password" required="">
+                        <input type="password" class="form-control" id="password" name="old_password" placeholder="Kata Sandi Lama" required="">
                         <span class="messages"></span>
                       </div>
                     </div>
 
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label">New Password</label>
+                      <label class="col-sm-2 col-form-label">Kata Sandi Baru</label>
                       <div class="col-sm-10">
-                        <input type="password" class="form-control" id="password" name="new_password" placeholder="Password input" required="">
+                        <input type="password" class="form-control" id="password" name="new_password" placeholder="Masukkan Kata Sandi Baru" required="">
                         <span class="messages"></span>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label">Confirm Password</label>
+                      <label class="col-sm-2 col-form-label">Konfirmasi Kata Sandi</label>
                       <div class="col-sm-10">
-                        <input type="password" class="form-control" id="repeat-password" name="confirm_password" placeholder="Confirm Password" required="">
+                        <input type="password" class="form-control" id="repeat-password" name="confirm_password" placeholder="Konfirmasi Kata Sandi" required="">
                         <span class="messages"></span>
                       </div>
                     </div>
@@ -154,8 +161,21 @@ if (isset($_POST["btn_password"])) {
                         <button type="submit" name="btn_password" class="btn btn-primary m-b-0">Submit</button>
                       </div>
                     </div>
-                  </form>
+                    <?php if ($_SESSION['user'] == 'patient') {
+                    ?>
+
+                      <div class="form-group row">
+                        <label class="col-sm-2"></label>
+                        <div class="col-sm-10">
+                          <!-- Tombol Kembali -->
+                          <a href="index.php" class="btn btn-secondary m-b-0">
+                            <i class="feather icon-arrow-left"></i> Kembali
+                          </a>
+                        </div>
+                      </div>
+                    <?php } ?>
                 </div>
+                </form>
               </div>
             </div>
           </div>
@@ -163,6 +183,7 @@ if (isset($_POST["btn_password"])) {
       </div>
     </div>
   </div>
+</div>
 </div>
 
 

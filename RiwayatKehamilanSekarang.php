@@ -12,12 +12,28 @@ include('connect.php');
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            padding: 20px;
-        }
+    body {
+        padding: 20px;
+    }
     </style>
 </head>
+<?php
+
+if (isset($_GET['setid_kunjungan_ulang'])) {
+    $_SESSION['proses_kunjungan_ulang'] = $_GET['setid_kunjungan_ulang'];
+    $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
+    $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
+} else {
+    if (isset($_SESSION['proses_kunjungan_ulang'])) {
+        $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
+        $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
+    } else {
+        header("location: formproses.php");
+    }
+}
+?>
 
 <body>
 
@@ -32,24 +48,20 @@ include('connect.php');
 
                     <!-- ini adalah form  -->
                     <div class="form-group row">
-                        <label for="bentuk_tubuh" class="col-sm-4 col-form-label">Nama Pasien</label>
+                        <label for=patient" class="col-sm-4 col-form-label">Nama Pasien</label>
                         <div class="col-sm-8">
+                            <?php
+                            $patient_solo = mysqli_fetch_assoc(
+                                mysqli_query(
+                                    $conn,
+                                    "SELECT patientid FROM proses where id = '$_SESSION[proses_kunjungan_ulang]'"
+                                )
+                            )['patientid'];
+                            ?>
                             <select class="form-control" name="patient" id="patient" required="">
-                                <option>-- Pilih Pasien--</option>
-                                <?php
-                                $sqlpatient = "SELECT * FROM proses WHERE status = 'belum selesai'";
-
-                                $qsqlpatient = mysqli_query($conn, $sqlpatient);
-                                while ($rspatient = mysqli_fetch_array($qsqlpatient)) {
-                                    $adawd = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM patient WHERE patientid = '$rspatient[patientid]'"));
-
-                                    if ($rspatient['patientid'] == $rsedit['patientid']) {
-                                        echo "<option value='" . $rspatient['patientid'] . "' selected>" . $rspatient['patientid'] . " - " . $adawd['patientname'] . "</option>";
-                                    } else {
-                                        echo "<option value='" . $rspatient['patientid'] . "'>" . $rspatient['patientid'] . " - " . $adawd['patientname'] . "</option>";
-                                    }
-                                }
-                                ?>
+                                <option value="<?php echo $patient_solo ?>" selected hidden>
+                                    <?php echo mysqli_fetch_assoc(mysqli_query($conn, "SELECT patientname FROM patient WHERE patientid = '$patient_solo'"))['patientname'] ?>
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -58,7 +70,7 @@ include('connect.php');
                     <div class="form-group row">
                         <label for="G" class="col-sm-4 col-form-label">G</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="G" name="G" />
+                            <input required type="text" class="form-control" id="G" name="G" />
                         </div>
                     </div>
                     <!-- penutup form 1 -->
@@ -66,7 +78,7 @@ include('connect.php');
                     <div class="form-group row">
                         <label for="p" class="col-sm-4 col-form-label">P</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="p" name="p" />
+                            <input required type="text" class="form-control" id="p" name="p" />
                         </div>
                     </div>
 
@@ -89,11 +101,13 @@ include('connect.php');
                         <label class="col-sm-4 col-form-label">Muntah-Muntah</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="muntah" id="biasa" value="Biasa" checked>
+                                <input class="form-check-input" type="radio" name="muntah" id="biasa" value="Biasa"
+                                    checked>
                                 <label class="form-check-label" for="biasa">Biasa</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="muntah" id="menerus" value="Terus-menerus">
+                                <input class="form-check-input" type="radio" name="muntah" id="menerus"
+                                    value="Terus-menerus">
                                 <label class="form-check-label" for="menerus">Terus-menerus</label>
                             </div>
                         </div>
@@ -103,11 +117,13 @@ include('connect.php');
                         <label class="col-sm-4 col-form-label">Pusing-pusing</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pusing" id="biasa" value="Biasa" checked>
+                                <input class="form-check-input" type="radio" name="pusing" id="biasa" value="Biasa"
+                                    checked>
                                 <label class="form-check-label" for="biasa">Biasa</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pusing" id="menerus" value="Terus-menerus">
+                                <input class="form-check-input" type="radio" name="pusing" id="menerus"
+                                    value="Terus-menerus">
                                 <label class="form-check-label" for="menerus">Terus-menerus</label>
                             </div>
                         </div>
@@ -220,11 +236,13 @@ include('connect.php');
                         <label class="col-sm-4 col-form-label">Pasangan Sexual Istri</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasanganistri" id="satu" value="Satu" checked>
+                                <input class="form-check-input" type="radio" name="pasanganistri" id="satu" value="Satu"
+                                    checked>
                                 <label class="form-check-label" for="ada">Satu</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasanganistri" id="lebih" value="Lebih dari satu">
+                                <input class="form-check-input" type="radio" name="pasanganistri" id="lebih"
+                                    value="Lebih dari satu">
                                 <label class="form-check-label" for="tidak">Lebih dari satu</label>
                             </div>
                         </div>
@@ -234,11 +252,13 @@ include('connect.php');
                         <label class="col-sm-4 col-form-label">Pasangan Sexual Suami</label>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasangansuami" id="satu" value="Satu" checked>
+                                <input class="form-check-input" type="radio" name="pasangansuami" id="satu" value="Satu"
+                                    checked>
                                 <label class="form-check-label" for="ada">Satu</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pasangansuami" id="lebih" value="Lebih dari satu">
+                                <input class="form-check-input" type="radio" name="pasangansuami" id="lebih"
+                                    value="Lebih dari satu">
                                 <label class="form-check-label" for="tidak">Lebih dari satu</label>
                             </div>
                         </div>
@@ -276,11 +296,11 @@ include('connect.php');
 
 <!-- request handler -->
 <?php
-if (isset($_POST) && count($_POST) > 0) {
-    if (isset($_GET['RiwayatKehamilanSekarang-submit'])) {
-        mysqli_query(
-            $conn,
-            "INSERT INTO `kehamilansekarang` (
+if (isset($_GET['RiwayatKehamilanSekarang-submit'])) {
+    $patient = mysqli_fetch_assoc(mysqli_query($conn, "SELECT patientid from proses where id = '{$_SESSION["proses_kunjungan_ulang"]}'"))['patientid'];
+    $status = mysqli_query(
+        $conn,
+        "INSERT INTO `kehamilansekarang` (
         `patient`,
         `G`,
         `P`,
@@ -308,7 +328,7 @@ if (isset($_POST) && count($_POST) > 0) {
         '{$_POST['pusing']}',
         '{$_POST['nyeri']}',
         '{$_POST['nafsu']}',
-        '{$_POST['darah']}',
+        -- '{$_POST['darah']}',
         '{$_POST['penyakitdiderita']}',
         '{$_POST['keluarga']}',
         '{$_POST['kebiasaan']}',
@@ -317,8 +337,27 @@ if (isset($_POST) && count($_POST) > 0) {
         '{$_POST['pasangansuami']}'
         
     )"
-        );
+    );
+    if ($status) {
+        $_SESSION['popup-sukses'] = true;
     }
 }
 
+
+
+
+if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
+?>
+<script>
+Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Berhasil disimpan !",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php
+    $_SESSION['popup-sukses'] = false;
+}
 ?>

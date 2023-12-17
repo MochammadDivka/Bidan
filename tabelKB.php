@@ -25,7 +25,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
     $status =
         mysqli_query(
             $conn,
-            "DELETE from kunjungan_ulang where id = $_POST[delete]"
+            "DELETE from perencanaan_kehamilan where id = $_POST[delete]"
         );
     if ($status) {
         $_SESSION['popup-delete-sukses'] = true;
@@ -56,7 +56,8 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                     <li class="breadcrumb-item">
                                         <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-
+                                    <li class="breadcrumb-item"><a href="listtabel.php">List Tabel
+                                    </li>
                                     <li class="breadcrumb-item"><a href="tabelRK.php">Tabel Riwayat Kehamilan</a>
                                     </li>
                                 </ul>
@@ -89,18 +90,18 @@ if (isset($_GET['action'], $_POST['delete'])) {
                             <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Haid Tanggal</th>
-                                        <th>Tekanan Darah</th>
-                                        <th>Berat Badan</th>
-                                        <th>Keluhan Efek Samping</th>
-                                        <th>Keluhan Komplikasi</th>
-                                        <th>Tindakan</th>
-                                        <th>Tanggal Kembali</th>
+                                        <th>Jumlah anak hidup</th>
+                                        <th>Keinginan punya anak lagi</th>
+                                        <th>Saat ingin punya anak lagi</th>
+                                        <th>Status kehamilan saat ini</th>
+                                        <th>Riwayat komplikasi kehamilan</th>
+                                        <th>Sikap pasangan terhadap KB</th>
+                                        <th>Menjelaskan resiko</th>
+                                        <th>Metoode ganda untuk akseptor KB yang resiko</th>
                                         <?php
                                         if ($_SESSION['user'] == 'doctor') {
                                         ?>
-                                            <th>Action</th>
+                                        <th>Action</th>
                                         <?php
                                         }
                                         ?>
@@ -108,28 +109,30 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $rskunjungan_ulang = mysqli_query(
+                                    $rsperencanaan_kehamilan = mysqli_query(
                                         $conn,
-                                        "SELECT * FROM kunjungan_ulang where id_pasien = '{$current_query_relative_to_user}'"
+                                        "SELECT * FROM perencanaan_kehamilan where patient = '{$current_query_relative_to_user}'"
                                     );
 
-                                    while ($array1 = mysqli_fetch_assoc($rskunjungan_ulang)) {
+                                    while ($array1 = mysqli_fetch_assoc($rsperencanaan_kehamilan)) {
                                     ?>
-                                        <tr>
-                                            <td><?php echo $array1['tanggal'] ?></td>
-                                            <td><?php echo $array1['haid_tanggal'] ?></td>
-                                            <td> <?php echo $array1['b.b'] ?> </td>
-                                            <td> <?php echo $array1['tek.darah'] ?> </td>
-                                            <td><?php echo $array1['keluhan_efek_samping'] ?></td>
-                                            <td><?php echo $array1['keluhan_komplikasi'] ?></td>
-                                            <td><?php echo $array1['tindakan'] ?></td>
-                                            <td><?php echo $array1['tanggal_kembali'] ?></td>
-                                            <?php
+                                    <tr>
+                                        <td><?php echo $array1['jumlah_anak_hidup'] ?></td>
+                                        <td><?php echo $array1['keinginan_punya_anak_lagi'] ?></td>
+                                        <td> <?php echo $array1['saat_ingin_punya_anak_lagi'] ?> </td>
+                                        <td> <?php echo $array1['status_kehamilan_saat_ini'] ?> </td>
+                                        <td><?php echo $array1['riwayat_komplikasi_kehamilan'] ?></td>
+                                        <td><?php echo $array1['sikap_pasangan_terhadap_KB'] ?></td>
+                                        <td><?php echo $array1['menjelaskan_resiko'] ?></td>
+                                        <td><?php echo $array1['metode_ganda_untuk_akseptor_KB_yang_resiko'] ?></td>
+
+                                        <?php
                                             if ($_SESSION['user'] == 'doctor') {
                                             ?>
-                                                <td>
-                                                    <form action="?action=delete" method="post">
-                                                        <button class="btn btn-md btn-danger" type="submit" name="delete" value="<?php echo $array1['id'] ?>" ">DELETE</button>
+                                        <td>
+                                            <form action="?action=delete" method="post">
+                                                <button class="btn btn-md btn-danger" type="submit" name="delete"
+                                                    value="<?php echo $array1['id'] ?>" ">DELETE</button>
                                             </form>
                                         </td>
                                                 <?php
@@ -147,9 +150,10 @@ if (isset($_GET['action'], $_POST['delete'])) {
                 </div>
 
                 <div class=" col-sm-4 mb-4">
-                                                            <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>" class="btn btn-secondary custom-btn">
-                                                                <i class="fas fa-arrow-left"></i> Kembali
-                                                            </a>
+                                                    <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>"
+                                                        class="btn btn-secondary custom-btn">
+                                                        <i class="fas fa-arrow-left"></i> Kembali
+                                                    </a>
                         </div>
 
 
@@ -169,61 +173,61 @@ if (isset($_GET['action'], $_POST['delete'])) {
 </div>
 <?php include('footer.php'); ?>
 <?php if (!empty($_SESSION['success'])) {  ?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Success
-                </h1>
-                <p><?php echo $_SESSION['success']; ?></p>
-                <p>
-                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                    <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
-                </p>
-        </div>
+<div class="popup popup--icon -success js_success-popup popup--visible">
+    <div class="popup__background"></div>
+    <div class="popup__content">
+        <h3 class="popup__content__title">
+            Success
+            </h1>
+            <p><?php echo $_SESSION['success']; ?></p>
+            <p>
+                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                <!-- <button class="button button--success" data-for="js_success-popup">Close</button> -->
+            </p>
     </div>
+</div>
 <?php unset($_SESSION["success"]);
 } ?>
 <?php if (!empty($_SESSION['error'])) {  ?>
-    <div class="popup popup--icon -error js_error-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Error
-                </h1>
-                <p><?php echo $_SESSION['error']; ?></p>
-                <p>
-                    <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
-                    <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
-                </p>
-        </div>
+<div class="popup popup--icon -error js_error-popup popup--visible">
+    <div class="popup__background"></div>
+    <div class="popup__content">
+        <h3 class="popup__content__title">
+            Error
+            </h1>
+            <p><?php echo $_SESSION['error']; ?></p>
+            <p>
+                <?php echo "<script>setTimeout(\"location.href = 'view_user.php';\",1500);</script>"; ?>
+                <!--  <button class="button button--error" data-for="js_error-popup">Close</button> -->
+            </p>
     </div>
+</div>
 <?php unset($_SESSION["error"]);
 } ?>
 <script>
-    var addButtonTrigger = function addButtonTrigger(el) {
-        el.addEventListener('click', function() {
-            var popupEl = document.querySelector('.' + el.dataset.for);
-            popupEl.classList.toggle('popup--visible');
-        });
-    };
+var addButtonTrigger = function addButtonTrigger(el) {
+    el.addEventListener('click', function() {
+        var popupEl = document.querySelector('.' + el.dataset.for);
+        popupEl.classList.toggle('popup--visible');
+    });
+};
 
-    Array.from(document.querySelectorAll('button[data-for]')).
-    forEach(addButtonTrigger);
+Array.from(document.querySelectorAll('button[data-for]')).
+forEach(addButtonTrigger);
 </script>
 
 <?php
 if (isset($_SESSION['popup-delete-sukses']) && $_SESSION['popup-delete-sukses'] == true) {
 ?>
-    <script>
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Berhasil dihapus !",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    </script>
+<script>
+Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Berhasil dihapus !",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
 <?php
     $_SESSION['popup-delete-sukses'] = false;
 }

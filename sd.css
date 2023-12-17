@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn {
+  position: absolute;
+  top: 15px;
+  right: 45px;
+  height: 45px;
+  width: 45px;
+  text-align: center;
+  background: #404e67;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: right 0.4s ease; /* Keep the transition property for right */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.btn.click {
+  right: 45px; /* Keep the button at the same position when clicked */
+}
+.btn span {
+  color: white;
+  font-size: 28px;
+  line-height: 45px;
+}
+.btn.click span:before {
+  content: "\f00d";
+}
+
+.feather {
+  margin-right: 25px; /* Adjust the value as needed */
+}
+
+.sidebar {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  left: -250px;
+  background: #404e67;
+  transition: left 0.4s ease;
+  font-size: 12px;
+  z-index: 1;
+}
+.sidebar.show {
+  left: 0px;
+}
+.sidebar .text {
+  color: white;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 65px;
+  text-align: center;
+  background: #404e67;
+  letter-spacing: 1px;
+}
+nav ul {
+  background: #404e67;
+  height: 100%;
+  width: 100%;
+  list-style: none;
+}
+nav ul li {
+  line-height: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+nav ul li:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+nav ul li a {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  padding-left: 40px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  border-left: 3px solid transparent;
+}
+nav ul li.active a {
+  color: #e41777;
+  background: #404e67;
+  border-left-color: #e41777;
+}
+nav ul li a:hover {
+  background: #404e67;
+}
+nav ul ul {
+  position: static;
+  display: none;
+}
+nav ul .feat-show.show {
+  display: block;
+}
+nav ul .serv-show.show1 {
+  display: block;
+}
+nav ul ul li {
+  line-height: 42px;
+  border-top: none;
+}
+nav ul ul li a {
+  font-size: 13px;
+  color: #e6e6e6;
+  padding-left: 55px;
+}
+nav ul li.active ul li a {
+  color: #e6e6e6;
+  background: #404e67;
+  border-left-color: transparent;
+}
+nav ul ul li a:hover {
+  color: #e41777 !important;
+  background: #404e67 !important;
+}
+nav ul li a span {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: transform 0.4s;
+}
+nav ul li a span.rotate {
+  transform: translateY(-50%) rotate(-180deg);
+}

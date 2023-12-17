@@ -25,7 +25,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
     $status =
         mysqli_query(
             $conn,
-            "DELETE from kunjungan_ulang where id = $_POST[delete]"
+            "DELETE from kehamilansekarang where id = $_POST[delete]"
         );
     if ($status) {
         $_SESSION['popup-delete-sukses'] = true;
@@ -56,7 +56,8 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                     <li class="breadcrumb-item">
                                         <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-
+                                    <li class="breadcrumb-item"><a href="listtabel.php">List Tabel
+                                    </li>
                                     <li class="breadcrumb-item"><a href="tabelRK.php">Tabel Riwayat Kehamilan</a>
                                     </li>
                                 </ul>
@@ -89,14 +90,21 @@ if (isset($_GET['action'], $_POST['delete'])) {
                             <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Haid Tanggal</th>
-                                        <th>Tekanan Darah</th>
-                                        <th>Berat Badan</th>
-                                        <th>Keluhan Efek Samping</th>
-                                        <th>Keluhan Komplikasi</th>
-                                        <th>Tindakan</th>
-                                        <th>Tanggal Kembali</th>
+                                        <th>G</th>
+                                        <th>P</th>
+                                        <th>HPHT</th>
+                                        <th>HPL</th>
+                                        <th>Muntah</th>
+                                        <th>Pusing</th>
+                                        <th>Nyeri Perut</th>
+                                        <th>Nafsu Makan</th>
+                                        <th>Pendarahan</th>
+                                        <th>Penyakit</th>
+                                        <th>Riwayat penyakit keluarga</th>
+                                        <th>Kebiasaan</th>
+                                        <th>Keluhan</th>
+                                        <th>Pasangan sex Istri</th>
+                                        <th>Pasangan sex Suami</th>
                                         <?php
                                         if ($_SESSION['user'] == 'doctor') {
                                         ?>
@@ -108,22 +116,29 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $rskunjungan_ulang = mysqli_query(
+                                    $rskehamilansekarang = mysqli_query(
                                         $conn,
-                                        "SELECT * FROM kunjungan_ulang where id_pasien = '{$current_query_relative_to_user}'"
+                                        "SELECT * FROM kehamilansekarang where patient = '{$current_query_relative_to_user}'"
                                     );
 
-                                    while ($array1 = mysqli_fetch_assoc($rskunjungan_ulang)) {
+                                    while ($array1 = mysqli_fetch_assoc($rskehamilansekarang)) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $array1['tanggal'] ?></td>
-                                            <td><?php echo $array1['haid_tanggal'] ?></td>
-                                            <td> <?php echo $array1['b.b'] ?> </td>
-                                            <td> <?php echo $array1['tek.darah'] ?> </td>
-                                            <td><?php echo $array1['keluhan_efek_samping'] ?></td>
-                                            <td><?php echo $array1['keluhan_komplikasi'] ?></td>
-                                            <td><?php echo $array1['tindakan'] ?></td>
-                                            <td><?php echo $array1['tanggal_kembali'] ?></td>
+                                            <td><?php echo $array1['G'] ?></td>
+                                            <td><?php echo $array1['P'] ?></td>
+                                            <td> <?php echo $array1['HPHT'] ?> </td>
+                                            <td> <?php echo $array1['HPL'] ?> </td>
+                                            <td><?php echo $array1['muntah'] ?></td>
+                                            <td><?php echo $array1['pusing'] ?></td>
+                                            <td><?php echo $array1['nyeriperut'] ?></td>
+                                            <td><?php echo $array1['nafsu_makan'] ?></td>
+                                            <td><?php echo $array1['pendarahan'] ?></td>
+                                            <td><?php echo $array1['penyakit'] ?></td>
+                                            <td><?php echo $array1['riwayatpenyakit_keluarga'] ?></td>
+                                            <td><?php echo $array1['kebiasaan'] ?></td>
+                                            <td><?php echo $array1['keluhan'] ?></td>
+                                            <td><?php echo $array1['pasangansex_istri'] ?></td>
+                                            <td><?php echo $array1['pasangansex_suami'] ?></td>
                                             <?php
                                             if ($_SESSION['user'] == 'doctor') {
                                             ?>

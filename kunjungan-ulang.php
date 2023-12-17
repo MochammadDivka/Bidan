@@ -1,74 +1,59 @@
 <?php
 require_once('connect.php');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-</head>
-
-<body style="background-color: #f0f0f0;">
+    <title>Kunjungan Ulang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    table,
-    thead,
-    tbody,
-    tr,
-    td {
-        border: 1px solid black;
-    }
-
-    thead {
-        font-weight: bold;
-    }
-
-    td {
-        text-transform: capitalize;
-        padding: 0px 5px;
-    }
+        body {
+            padding: 20px;
+        }
     </style>
+</head>
+<?php
+session_start();
 
-    <?php
-    session_start();
-
-    if (isset($_GET['setid_kunjungan_ulang'])) {
-        $_SESSION['proses_kunjungan_ulang'] = $_GET['setid_kunjungan_ulang'];
+if (isset($_GET['setid_kunjungan_ulang'])) {
+    $_SESSION['proses_kunjungan_ulang'] = $_GET['setid_kunjungan_ulang'];
+    $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
+    $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
+} else {
+    if (isset($_SESSION['proses_kunjungan_ulang'])) {
         $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
         $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
     } else {
-        if (isset($_SESSION['proses_kunjungan_ulang'])) {
-            $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
-            $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
-        } else {
-            header("location: formproses.php");
-        }
+        header("location: formproses.php");
     }
+}
 
-    ?>
-    <?php
-    if (isset($_POST['kunjungan-ulang']) && $_POST['kunjungan-ulang'] == 'submit') {
-        $tanggal_haid = $_POST['tanggal_haid'];
+?>
+<?php
+if (isset($_POST['kunjungan-ulang']) && $_POST['kunjungan-ulang'] == 'submit') {
+    $tanggal_haid = $_POST['tanggal_haid'];
 
-        $tekanan_darah = $_POST['tekanan_darah'];
+    $tekanan_darah = $_POST['tekanan_darah'];
 
-        $bb = $_POST['bb'];
+    $bb = $_POST['bb'];
 
-        $efek_samping = $_POST['efek_samping'];
+    $efek_samping = $_POST['efek_samping'] ?? null;
 
-        $komplikasi = $_POST['komplikasi'];
+    $komplikasi = $_POST['komplikasi'];
 
-        $tindakan = $_POST['tindakan'];
+    $tindakan = $_POST['tindakan'];
 
-        $Tanggal_kembali = $_POST['Tanggal_kembali'];
+    $Tanggal_kembali = $_POST['Tanggal_kembali'];
 
-        $date_now = date('d-m-Y');
-        mysqli_query($conn, "
+    $date_now = date('d-m-Y');
+
+
+    $status = mysqli_query($conn, "
 INSERT INTO `kunjungan_ulang`(
     `id_pasien`,
  `tanggal`,
@@ -89,62 +74,147 @@ INSERT INTO `kunjungan_ulang`(
     '{$tindakan}',
     '{$Tanggal_kembali}')
 ");
+    if ($status) {
+        $_SESSION['popup-sukses'] = true;
     }
-    ?>
+}
 
 
 
-    <form class="container" action="" method="post" style="width: 50%; margin: 50px auto;">
-        <h1 class="h3 mb-3">Kunjungan Ulang</h1>
-        <div class="mb-3">
-            <label for="tanggal_haid" class="form-label">Tanggal Haid</label>
-            <input required type="date" class="form-control" id="tanggal_haid" name="tanggal_haid"
-                placeholder="Masukkan nama pasien">
-        </div>
-        <div class="mb-3">
-            <label for="tekanan_darah" class="form-label">Tekanan Darah</label>
-            <input required type="text" class="form-control" id="tekanan_darah" name="tekanan_darah"
-                placeholder="Masukkan tekanan darah">
-        </div>
-        <div class="mb-3">
-            <label for="bb" class="form-label">Berat Badan</label>
-            <input required type="text" class="form-control" id="bb" name="bb" placeholder="Masukkan berat badan">
-        </div>
-        <div class="mb-3">
-            <label for="efek_samping" class="form-label">Efek Samping</label>
-            <input required type="text" class="form-control" id="efek_samping" name="efek_samping"
-                placeholder="Masukkan efek samping">
-        </div>
-        <div class="mb-3">
-            <label for="komplikasi" class="form-label">Komplikasi</label>
-            <input required type="text" class="form-control" id="komplikasi" name="komplikasi"
-                placeholder="Masukkan komplikasi">
-        </div>
-        <div class="mb-3">
-            <label for="tindakan" class="form-label">Tindakan</label>
-            <input required type="text" class="form-control" id="tindakan" name="tindakan"
-                placeholder="Masukkan tindakan">
-        </div>
-        <div class="mb-3">
-            <label for="Tanggal kembali" class="form-label">Tanggal kembali</label>
-            <input required type="date" class="form-control" id="Tanggal kembali" name="Tanggal kembali"
-                placeholder="Masukkan Tanggal kembali">
-        </div>
-        <div style="display:flex; gap: 10px;">
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <a href="proses.php" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
-                </div>
+
+if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
+?>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+<?php
+    $_SESSION['popup-sukses'] = false;
+}
+?>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    Kunjungan Ulang
+                    <!-- iki gae judul e -->
+                </h3>
             </div>
-            <button type="submit" name="kunjungan-ulang" value="submit" class="btn btn-primary">Kirim</button>
+            <div class="card-body">
+                <form action="?submit-kunjungan_ulang" method="post">
+                    <!-- ini adalah form  -->
+                    <div class="form-group row">
+                        <label for="nama pasien" class="col-sm-4 col-form-label">Nama Pasien</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="nama pasien" name="nama pasien" value="<?php echo $nama_pasien; ?>" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tanggal_haid" class="col-sm-4 col-form-label">Tanggal Haid</label>
+                        <div class="col-sm-8">
+                            <input required type="date" class="form-control" id="tanggal_haid" name="tanggal_haid" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tekanan_darah" class="col-sm-4 col-form-label">Tekanan Darah</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="tekanan_darah" name="tekanan_darah" />
+                        </div>
 
+                    </div>
+                    <div class="form-group row">
+                        <label for="bb" class="col-sm-4 col-form-label">Berat Badan</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="bb" name="bb" />
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="komplikasi" class="col-sm-4 col-form-label">Efek Samping</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="komplikasi" name="efek_samping" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="komplikasi" class="col-sm-4 col-form-label">Komplikasi</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="komplikasi" name="komplikasi" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tindakan" class="col-sm-4 col-form-label">Tindakan</label>
+                        <div class="col-sm-8">
+                            <input required type="text" class="form-control" id="tindakan" name="tindakan" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Tanggal kembali" class="col-sm-4 col-form-label">Tanggal kembali</label>
+                        <div class="col-sm-8">
+                            <input required type="date" class="form-control" id="Sikap pasangan terhadap KB" name="Tanggal_kembali" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-8 offset-sm-4">
+                            <button type="submit" name="kunjungan-ulang" value="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <a href="proses.php" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
 
-
-
+    <!-- Add Bootstrap JS and Popper.js scripts here -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+<script>
+    $(document).ready(function() {
+        var beratBadanInput = $('#bb');
+
+
+        beratBadanInput.on('input', function() {
+
+            var nilaiInput = $(this).val();
+
+            nilaiInput = nilaiInput.replace(/\D/g, '');
+
+
+            $(this).val(nilaiInput + ' KG');
+        });
+    });
+    $(document).ready(function() {
+
+        var tekananDarahInput = $('#tekanan_darah');
+
+
+        tekananDarahInput.on('input', function() {
+
+            var nilaiInput = $(this).val();
+
+
+            nilaiInput = nilaiInput.replace(/\D/g, '');
+
+
+            $(this).val(nilaiInput + ' mmHg');
+        });
+    });
+</script>
 
 </html>

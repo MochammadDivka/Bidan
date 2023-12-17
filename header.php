@@ -1,26 +1,25 @@
-<?php include('connect.php');?>
+<?php include('connect.php'); ?>
 
 <body>
     <?php
-$que="select * from manage_website";
-$query=$conn->query($que);
-while($row=mysqli_fetch_array($query))
-{
-  //print_r($row);
-  extract($row);
-  $business_name = $row['business_name'];
-  $business_email = $row['business_email'];
-  $business_web = $row['business_web'];
-  $portal_addr = $row['portal_addr'];
-  $addr = $row['addr'];
-  $curr_sym = $row['curr_sym'];
-  $curr_position = $row['curr_position'];
-  $front_end_en = $row['front_end_en'];
-  $date_format = $row['date_format'];
-  $def_tax = $row['def_tax'];
-  $logo = $row['logo'];
-}
-?>
+    $que = "select * from manage_website";
+    $query = $conn->query($que);
+    while ($row = mysqli_fetch_array($query)) {
+        //print_r($row);
+        extract($row);
+        $business_name = $row['business_name'];
+        $business_email = $row['business_email'];
+        $business_web = $row['business_web'];
+        $portal_addr = $row['portal_addr'];
+        $addr = $row['addr'];
+        $curr_sym = $row['curr_sym'];
+        $curr_position = $row['curr_position'];
+        $front_end_en = $row['front_end_en'];
+        $date_format = $row['date_format'];
+        $def_tax = $row['def_tax'];
+        $logo = $row['logo'];
+    }
+    ?>
 
     <div class="theme-loader">
         <div class="ball-scale">
@@ -66,7 +65,7 @@ while($row=mysqli_fetch_array($query))
                 <div class="navbar-wrapper">
                     <div class="navbar-logo">
 
-                        <a href="dashboard.php">
+                        <a href="index.php">
 
                             <div class="text-center">
                                 <image class="profile-img" src="uploadImage/Logo/<?php echo $logo; ?>"
@@ -97,23 +96,24 @@ while($row=mysqli_fetch_array($query))
                             </li>
                         </ul>
                         <ul class="nav-right">
-                            <li class="header-notification">
+                            <style>
+                            .header-notification .dropdown-primary.dropdown .show-notification {
+                                display: none;
+                            }
+                            </style>
+                            <!-- <li class="header-notification">
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="feather icon-bell"></i>
-                                        <span class="badge bg-c-pink">5</span>
                                     </div>
-                                    <ul class="show-notification notification-view dropdown-menu"
-                                        data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    <ul class="show-notification notification-view dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                                         <li>
                                             <h6>Notifications</h6>
                                             <label class="label label-danger">New</label>
                                         </li>
                                         <li>
                                             <div class="media">
-                                                <img class="d-flex align-self-center img-radius"
-                                                    src="files/assets/images/avatar-4.jpg"
-                                                    alt="Generic placeholder image">
+                                                <img class="d-flex align-self-center img-radius" src="files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
                                                 <div class="media-body">
                                                     <h5 class="notification-user">Nikhil Bhalerao +919423979339</h5>
                                                     <p class="notification-msg">CI, Laravel PHP Developer</p>
@@ -125,7 +125,8 @@ while($row=mysqli_fetch_array($query))
 
                                     </ul>
                                 </div>
-                            </li>
+
+                            </li> -->
 
 
 
@@ -135,9 +136,9 @@ while($row=mysqli_fetch_array($query))
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
 
-                                        <?php 
+                                        <?php
 
-        /*$sql = "select * from admin where id = '".$_SESSION["id"]."'";
+                                        /*$sql = "select * from admin where id = '".$_SESSION["id"]."'";
         $query=$conn->query($sql);
         while($row=mysqli_fetch_array($query))
         {
@@ -151,11 +152,11 @@ while($row=mysqli_fetch_array($query))
             $gender = $row['gender'];
             $image = $row['image'];
         }*/
-        if($_SESSION['user'] == 'admin'){
-    ?>
+                                        if ($_SESSION['user'] == 'admin') {
+                                        ?>
 
-                                        <img src="uploadImage/Profile/<?php echo $_SESSION['image'];?>"
-                                            class="img-radius" alt="User-Profile-Image" /><?php }?>
+                                        <img src="uploadImage/Profile/<?php echo $_SESSION['image']; ?>"
+                                            class="img-radius" alt="User-Profile-Image" /><?php } ?>
                                         <span><?php echo $_SESSION['fname']; ?></span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
@@ -174,7 +175,7 @@ while($row=mysqli_fetch_array($query))
                                         </li>
 
                                         <li>
-                                            <a href="logout.php">
+                                            <a href="javascript:void(0);" onclick="confirmLogout()">
                                                 <i class="feather icon-log-out"></i> Logout
                                             </a>
                                         </li>
@@ -185,3 +186,22 @@ while($row=mysqli_fetch_array($query))
                     </div>
                 </div>
             </nav>
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <script>
+            function confirmLogout() {
+                Swal.fire({
+                    title: 'Logout',
+                    text: 'Are you sure you want to logout?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, logout!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "logout.php";
+                    }
+                });
+            }
+            </script>

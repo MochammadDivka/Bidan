@@ -25,7 +25,7 @@ if (isset($_GET['action'], $_POST['delete'])) {
     $status =
         mysqli_query(
             $conn,
-            "DELETE from kunjungan_ulang where id = $_POST[delete]"
+            "DELETE from pemeriksaan_fisik where id = $_POST[delete]"
         );
     if ($status) {
         $_SESSION['popup-delete-sukses'] = true;
@@ -56,7 +56,8 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                     <li class="breadcrumb-item">
                                         <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-
+                                    <li class="breadcrumb-item"><a href="listtabel.php">List Tabel
+                                    </li>
                                     <li class="breadcrumb-item"><a href="tabelRK.php">Tabel Riwayat Kehamilan</a>
                                     </li>
                                 </ul>
@@ -89,14 +90,16 @@ if (isset($_GET['action'], $_POST['delete'])) {
                             <table id="dom-jqry" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Haid Tanggal</th>
-                                        <th>Tekanan Darah</th>
-                                        <th>Berat Badan</th>
-                                        <th>Keluhan Efek Samping</th>
-                                        <th>Keluhan Komplikasi</th>
-                                        <th>Tindakan</th>
-                                        <th>Tanggal Kembali</th>
+                                        <th>Bentuk Tubuh</th>
+                                        <th>Kesadaran</th>
+                                        <th>Mata</th>
+                                        <th>Leher</th>
+                                        <th>Payudara</th>
+                                        <th>Paru</th>
+                                        <th>Jantung</th>
+                                        <th>Hati</th>
+                                        <th>Suhu Badan</th>
+                                        <th>Genetelia Luar Dalam</th>
                                         <?php
                                         if ($_SESSION['user'] == 'doctor') {
                                         ?>
@@ -108,22 +111,24 @@ if (isset($_GET['action'], $_POST['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $rskunjungan_ulang = mysqli_query(
+                                    $rspemeriksaan_fisik = mysqli_query(
                                         $conn,
-                                        "SELECT * FROM kunjungan_ulang where id_pasien = '{$current_query_relative_to_user}'"
+                                        "SELECT * FROM pemeriksaan_fisik where patient = '{$current_query_relative_to_user}'"
                                     );
 
-                                    while ($array1 = mysqli_fetch_assoc($rskunjungan_ulang)) {
+                                    while ($array1 = mysqli_fetch_assoc($rspemeriksaan_fisik)) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $array1['tanggal'] ?></td>
-                                            <td><?php echo $array1['haid_tanggal'] ?></td>
-                                            <td> <?php echo $array1['b.b'] ?> </td>
-                                            <td> <?php echo $array1['tek.darah'] ?> </td>
-                                            <td><?php echo $array1['keluhan_efek_samping'] ?></td>
-                                            <td><?php echo $array1['keluhan_komplikasi'] ?></td>
-                                            <td><?php echo $array1['tindakan'] ?></td>
-                                            <td><?php echo $array1['tanggal_kembali'] ?></td>
+                                            <td><?php echo $array1['bentuk_tubuh'] ?></td>
+                                            <td><?php echo $array1['kesadaran'] ?></td>
+                                            <td> <?php echo $array1['mata'] ?> </td>
+                                            <td> <?php echo $array1['leher'] ?> </td>
+                                            <td><?php echo $array1['payudara'] ?></td>
+                                            <td><?php echo $array1['paru'] ?></td>
+                                            <td><?php echo $array1['jantung'] ?></td>
+                                            <td><?php echo $array1['hati'] ?></td>
+                                            <td><?php echo $array1['suhu_badan'] ?></td>
+                                            <td><?php echo $array1['genitalia_luar_dalam'] ?></td>
                                             <?php
                                             if ($_SESSION['user'] == 'doctor') {
                                             ?>

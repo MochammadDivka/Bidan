@@ -9,16 +9,30 @@ include('connect.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Form</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    
     body {
         padding: 20px;
     }
     </style>
 </head>
+<?php
+if (isset($_GET['setid_kunjungan_ulang'])) {
+    $_SESSION['proses_kunjungan_ulang'] = $_GET['setid_kunjungan_ulang'];
+    $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
+    $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
+} else {
+    if (isset($_SESSION['proses_kunjungan_ulang'])) {
+        $proses_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientid from proses where id='$_SESSION[proses_kunjungan_ulang]'"))['patientid'];
+        $nama_pasien = mysqli_fetch_array(mysqli_query($conn, "SELECT patientname from patient where patientid='$proses_pasien'"))['patientname'];
+    } else {
+        header("location: formproses.php");
+    }
+}
+?>
 
 <body>
 
@@ -33,33 +47,17 @@ include('connect.php');
 
                     <!-- ini adalah form  -->
                     <div class="form-group row">
-                        <label for="bentuk_tubuh" class="col-sm-4 col-form-label">Nama Pasien</label>
+                        <label for="patient" class="col-sm-4 col-form-label">Nama Pasien</label>
                         <div class="col-sm-8">
-                            <select class="form-control" name="patient" id="patient" required="">
-                                <option>-- Select One--</option>
-                                <?php
-                                                   $sqlpatient = "SELECT * FROM proses WHERE status = 'belum selesai'";
-
-                                                    $qsqlpatient = mysqli_query($conn, $sqlpatient);
-                                                    while ($rspatient = mysqli_fetch_array($qsqlpatient)) {
-                                                      $adawd = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM patient WHERE patientid = '$rspatient[patientid]'"));
-                                                      
-                                                        if ($rspatient['patientid'] == $rsedit['patientid']) {
-                                                            echo "<option value='" . $rspatient['patientid'] . "' selected>" . $rspatient['patientid'] . " - " . $adawd['patientname'] . "</option>";
-                                                        } else {
-                                                            echo "<option value='" . $rspatient['patientid'] . "'>" . $rspatient['patientid'] . " - " . $adawd['patientname'] . "</option>";
-                                                        }
-                                                    }
-                                                    ?>
-                            </select>
+                            <div class="form-control" id="patient" name="patient"><?php echo $nama_pasien; ?></div>
                         </div>
                     </div>
 
                     <!-- pembuka form 1 -->
                     <div class="form-group row">
-                        <label for="bentuk_tubuh" class="col-sm-4 col-form-label">1. Bentuk Tubuh</label>
+                        <label for="bentuk_tubuh" class="col-sm-4 col-form-label">Bentuk Tubuh</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="bentuk_tubuh" name="bentuk_tubuh">
+                            <select required class="form-control" id="bentuk_tubuh" name="bentuk_tubuh">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Kelainan">Kelainan</option>
@@ -70,9 +68,9 @@ include('connect.php');
                     <!-- penutup form 1 -->
 
                     <div class="form-group row">
-                        <label for="kesadaran" class="col-sm-4 col-form-label">2. Kesadaran</label>
+                        <label for="kesadaran" class="col-sm-4 col-form-label">Kesadaran</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="kesadaran" name="kesadaran">
+                            <select required class="form-control" id="kesadaran" name="kesadaran">
                                 <option value="-">-</option>
                                 <option value="Baik">Baik</option>
                                 <option value="Ada gangguan">Ada gangguan</option>
@@ -81,9 +79,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="mata" class="col-sm-4 col-form-label">2. Mata</label>
+                        <label for="mata" class="col-sm-4 col-form-label">Mata</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Mata" name="Mata">
+                            <select required class="form-control" id="Mata" name="Mata">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Kuning">Kuning</option>
@@ -92,11 +90,11 @@ include('connect.php');
                         </div>
                     </div>
 
-                    <!-- Lanjutno ng isor iki -->
+
                     <div class="form-group row">
-                        <label for="Leher" class="col-sm-4 col-form-label">3. Leher</label>
+                        <label for="Leher" class="col-sm-4 col-form-label">Leher</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Leher" name="Leher">
+                            <select required class="form-control" id="Leher" name="Leher">
                                 <option value="-">-</option>
                                 <option value="Besar">Besar</option>
                                 <option value="Tidak">Tidak</option>
@@ -105,20 +103,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Leher" class="col-sm-4 col-form-label">4. Leher</label>
+                        <label for="Payudara" class="col-sm-4 col-form-label">Payudara</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Leher" name="Leher">
-                                <option value="-">-</option>
-                                <option value="Besar">Besar</option>
-                                <option value="Tidak">Tidak</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="Payudara" class="col-sm-4 col-form-label">5. Payudara</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" id="Payudara" name="Payudara">
+                            <select required class="form-control" id="Payudara" name="Payudara">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Ada benjolan">Ada benjolan</option>
@@ -129,9 +116,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Paru" class="col-sm-4 col-form-label">6. Paru</label>
+                        <label for="Paru" class="col-sm-4 col-form-label">Paru</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Paru" name="Paru">
+                            <select required class="form-control" id="Paru" name="Paru">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Bentuk dada">Bentuk dada</option>
@@ -140,9 +127,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Jantung" class="col-sm-4 col-form-label">7. Jantung</label>
+                        <label for="Jantung" class="col-sm-4 col-form-label">Jantung</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Jantung" name="Jantung">
+                            <select required class="form-control" id="Jantung" name="Jantung">
                                 <option value="-">-</option>
                                 <option value="Nafas normal">Nafas normal</option>
                                 <option value="Sesak">Sesak</option>
@@ -151,9 +138,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Hati" class="col-sm-4 col-form-label">8. Hati</label>
+                        <label for="Hati" class="col-sm-4 col-form-label">Hati</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Hati" name="Hati">
+                            <select required class="form-control" id="Hati" name="Hati">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Pembesaran">Pembesaran</option>
@@ -162,9 +149,9 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Suhu Badan" class="col-sm-4 col-form-label">9. Suhu Badan</label>
+                        <label for="Suhu Badan" class="col-sm-4 col-form-label">Suhu Badan</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Suhu Badan" name="Suhu Badan">
+                            <select required class="form-control" id="Suhu Badan" name="Suhu Badan">
                                 <option value="-">-</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Demam">Demam</option>
@@ -173,10 +160,11 @@ include('connect.php');
                     </div>
 
                     <div class="form-group row">
-                        <label for="Genetalia luar / dalam" class="col-sm-4 col-form-label">10. Genetalia luar /
+                        <label for="Genetalia luar / dalam" class="col-sm-4 col-form-label">Genetalia luar /
                             dalam</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="Genetalia luar / dalam" name="Genetalia luar / dalam">
+                            <select required class="form-control" id="Genetalia luar / dalam"
+                                name="Genetalia luar / dalam">
                                 <option value="-">-</option>
                                 <option value="Varises">Varises</option>
                                 <option value="Jengger">Jengger</option>
@@ -217,13 +205,18 @@ include('connect.php');
 
 
 <!-- request handler -->
-<?php 
-
-if (isset($_GET) || isset($_POST)) {
-  if (isset($_GET['pemeriksaan-submit'])) {
-    
-    mysqli_query($conn,
-    "INSERT INTO `pemeriksaan_fisik` (
+<?php
+if (isset($_POST) && count($_POST) > 0) {
+    if (isset($_GET['pemeriksaan-submit'])) {
+        $patient_solo = mysqli_fetch_assoc(
+            mysqli_query(
+                $conn,
+                "SELECT patientid FROM proses where id = $_SESSION[proses_kunjungan_ulang]"
+            )
+        )['patientid'];
+        $status = mysqli_query(
+            $conn,
+            "INSERT INTO `pemeriksaan_fisik` (
         `patient`,
         `bentuk_tubuh`,
         `kesadaran`,
@@ -236,7 +229,7 @@ if (isset($_GET) || isset($_POST)) {
         `suhu_badan`,
         `genitalia_luar_dalam`
     ) VALUES (
-        '{$_POST['patient']}',
+        '{$patient_solo}',  
         '{$_POST['bentuk_tubuh']}',
         '{$_POST['kesadaran']}',
         '{$_POST['Mata']}',
@@ -247,8 +240,28 @@ if (isset($_GET) || isset($_POST)) {
         '{$_POST['Hati']}',
         '{$_POST['Suhu_Badan']}',
         '{$_POST['Genetalia_luar_/_dalam']}'
-    )");    
-  }
+    )"
+        );
+        if ($status) {
+            $_SESSION['popup-sukses'] = true;
+        }
+    }
 }
 
+
+
+if (isset($_SESSION['popup-sukses']) && $_SESSION['popup-sukses'] == true) {
+?>
+<script>
+Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Berhasil disimpan !",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php
+    $_SESSION['popup-sukses'] = false;
+}
 ?>

@@ -4193,21 +4193,21 @@ a[data-toggle="lightbox"] .img-fluid {
   }
 }
 
-@media (min-width: 768px) {
-  .col-md {
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -webkit-box-flex: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-  .col-md-auto {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
-  }
+  @media (min-width: 768px) {
+    .col-md {
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      max-width: 100%;
+    }
+    .col-md-auto {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+      width: auto;
+    }
   .col-md-1 {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 8.333333%;
@@ -4997,7 +4997,7 @@ a[data-toggle="lightbox"] .img-fluid {
   padding: 6px 9px;
 }
 
-@media only screen and (min-width: 788px) {
+/* @media only screen and (min-width: 788px) {
   #main-chat .page-error,
   .full-calender .page-error {
     display: none;
@@ -5026,7 +5026,7 @@ a[data-toggle="lightbox"] .img-fluid {
   .clndr .clndr-grid .day-number {
     padding: 3px 4px !important;
   }
-}
+} */
 
 .dotted-line-theme .no_edit {
   border-bottom: 1px dotted #6c56f5;
@@ -30581,4 +30581,33 @@ body.dark #styleSelector {
 .pcoded[layout-type="dark"] #styleSelector .form-control,
 body.dark #styleSelector .form-control {
   color: #404e67;
+}
+
+/* Your existing styles */
+
+.nav-container {
+  display: block;
+}
+
+.mobile-menu {
+  display: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav-container {
+    display: none; /* Hide the regular navigation on small screens */
+  }
+
+  .mobile-menu {
+    display: block; /* Show the mobile menu button */
+  }
+
+  .pcoded-navbar {
+    display: none; /* Hide the regular navigation menu */
+  }
+
+  .pcoded-navbar.show-mobile-menu {
+    display: block; /* Show the mobile navigation menu when needed */
+  }
 }

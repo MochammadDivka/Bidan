@@ -2,7 +2,11 @@
 include('head.php');
 include('pala.php');
 include('connect.php');
-
+?>
+<?php if ($_SESSION['user'] == 'patient') {
+    include('jajal.php');
+} ?>
+<?php
 
 session_start();
 
@@ -20,7 +24,18 @@ switch ($_SESSION) {
         # code...
         break;
 }
+if (isset($_GET['action'], $_POST['delete'])) {
+    $status =
+        mysqli_query(
+            $conn,
+            "DELETE from pemeriksaankehamilan where id = $_POST[delete]"
+        );
+    if ($status) {
+        $_SESSION['popup-delete-sukses'] = true;
+    }
+}
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -88,7 +103,13 @@ switch ($_SESSION) {
                                         <th>DJJ</th>
                                         <th>Keluhan</th>
                                         <th>Therapie/Penyuluhan</th>
+                                        <?php
+                                        if ($_SESSION['user'] == 'doctor') {
+                                        ?>
                                         <th>Action</th>
+                                        <?php
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +117,7 @@ switch ($_SESSION) {
 
                                     $rskehamilan = mysqli_query(
                                         $conn,
-                                        "SELECT * FROM kehamilansekarang where patient = '{$current_query_relative_to_user}'"
+                                        "SELECT * FROM pemeriksaankehamilan where patient = '{$current_query_relative_to_user}'"
                                     );
 
                                     while ($array1 = mysqli_fetch_assoc($rskehamilan)) {
@@ -111,6 +132,18 @@ switch ($_SESSION) {
                                         <td><?php echo $array1['oed'] ?></td>
                                         <td><?php echo $array1['keluhan'] ?></td>
                                         <td><?php echo $array1['penyuluhan'] ?></td>
+                                        <?php
+                                            if ($_SESSION['user'] == 'doctor') {
+                                            ?>
+                                        <td>
+                                            <form action="?action=delete" method="post">
+                                                <button class="btn btn-md btn-danger" type="submit" name="delete"
+                                                    value="<?php echo $array1['id'] ?>" ">DELETE</button>
+                                                </form>
+                                            </td>
+                                            <?php
+                                            }
+                                            ?>
 
                                     </tr>
                                     <?php
@@ -123,25 +156,25 @@ switch ($_SESSION) {
                     </div>
                 </div>
 
-                <div class="col-sm-4 mb-4">
-                    <a href="<?php echo $_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin' ? 'view-patient.php' : $_SERVER['HTTP_REFERER'] ?>"
-                        class="btn btn-secondary custom-btn">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
+                <div class=" col-sm-4 mb-4">
+                                                    <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>"
+                                                        class="btn btn-secondary custom-btn">
+                                                        <i class="fas fa-arrow-left"></i> Kembali
+                                                    </a>
+                        </div>
+
+
+
+                    </div>
+
+
                 </div>
 
-
-
+                <div id="#">
+                </div>
             </div>
-
-
-        </div>
-
-        <div id="#">
         </div>
     </div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -189,3 +222,19 @@ var addButtonTrigger = function addButtonTrigger(el) {
 Array.from(document.querySelectorAll('button[data-for]')).
 forEach(addButtonTrigger);
 </script>
+<?php
+if (isset($_SESSION['popup-delete-sukses']) && $_SESSION['popup-delete-sukses'] == true) {
+?>
+<script>
+Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Berhasil dihapus !",
+    showConfirmButton: false,
+    timer: 1500
+});
+</script>
+<?php
+    $_SESSION['popup-delete-sukses'] = false;
+}
+?>

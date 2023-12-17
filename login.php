@@ -32,133 +32,133 @@
 <body class="fix-menu">
 
     <?php
-  include('connect.php');
-  extract($_POST);
+    include('connect.php');
+    extract($_POST);
 
-  if (isset($_POST['btn_login'])) {
-    $passw = hash('sha256', $_POST['password']);
+    if (isset($_POST['btn_login'])) {
+        $passw = hash('sha256', $_POST['password']);
 
-    function createSalt()
-    {
-      return '2123293dsj2hu2nikhiljdsd';
-    }
+        function createSalt()
+        {
+            return '2123293dsj2hu2nikhiljdsd';
+        }
 
-    $salt = createSalt();
-    $pass = hash('sha256', $salt . $passw);
+        $salt = createSalt();
+        $pass = hash('sha256', $salt . $passw);
 
-    //echo $pass;
-    if ($_POST['user'] == 'admin') {
-      $email =  $_POST['email'];
-      $sql = "SELECT * FROM admin WHERE loginid='" . $email . "' and password = '" . $pass . "'";
-      $result = mysqli_query($conn, $sql);
-      $row  = mysqli_fetch_array($result);
-      // print_r($row);    
-      if ($row != null) {
-        $_SESSION["adminid"] = $row['id'];
-        $_SESSION["id"] = $row['id'];
-        $_SESSION["username"] = $row['username'];
-        $_SESSION["password"] = $row['password'];
-        $_SESSION["email"] = $row['loginid'];
-        $_SESSION["fname"] = $row['fname'];
-        $_SESSION["lname"] = $row['lname'];
-        $_SESSION['image'] = $row['image'];
-        $_SESSION['user'] = $_POST['user'];
-      }
-    } else if ($_POST['user'] == 'doctor') {
-      $email = $_POST['email'];
-      $pass = hash('sha256', $_POST['password']);
-      $sql = "SELECT * FROM doctor WHERE loginid = ? and password = ?";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("ss", $email, $pass);
-      $stmt->execute();
-      $result = $stmt->get_result();
-      $row = $result->fetch_array(MYSQLI_ASSOC);
+        //echo $pass;
+        if ($_POST['user'] == 'admin') {
+            $email =  $_POST['email'];
+            $sql = "SELECT * FROM admin WHERE loginid='" . $email . "' and password = '" . $pass . "'";
+            $result = mysqli_query($conn, $sql);
+            $row  = mysqli_fetch_array($result);
+            // print_r($row);    
+            if ($row != null) {
+                $_SESSION["adminid"] = $row['id'];
+                $_SESSION["id"] = $row['id'];
+                $_SESSION["username"] = $row['username'];
+                $_SESSION["password"] = $row['password'];
+                $_SESSION["email"] = $row['loginid'];
+                $_SESSION["fname"] = $row['fname'];
+                $_SESSION["lname"] = $row['lname'];
+                $_SESSION['image'] = $row['image'];
+                $_SESSION['user'] = $_POST['user'];
+            }
+        } else if ($_POST['user'] == 'doctor') {
+            $email = $_POST['email'];
+            $pass = hash('sha256', $_POST['password']);
+            $sql = "SELECT * FROM doctor WHERE loginid = ? and password = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $email, $pass);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_array(MYSQLI_ASSOC);
 
 
-      // Data pengguna ditemukan, isi session
-      if ($row != null) {
-        $_SESSION["doctorid"] = $row['doctorid'];
-        $_SESSION["id"] = $row['doctorid'];
-        $_SESSION["password"] = $row['password'];
-        $_SESSION["email"] = $row['loginid'];
-        $_SESSION["fname"] = $row['doctorname'];
-        $_SESSION['user'] = $_POST['user'];
-      }
-    } else if ($_POST['user'] == 'patient') {
-      $sql = "SELECT * FROM patient WHERE loginid='" . $email . "' and password = '" . $pass . "'";
-      $result = mysqli_query($conn, $sql);
-      $row  = mysqli_fetch_array($result);
-      //print_r($row);    
-      if ($row != null) {
-        $_SESSION["patientid"] = $row['patientid'];
-        $_SESSION["id"] = $row['patientid'];
-        $_SESSION["password"] = $row['password'];
-        $_SESSION["email"] = $row['loginid'];
-        $_SESSION["fname"] = $row['patientname'];
-        $_SESSION['user'] = $_POST['user'];
-      }
-      }
-    //print_r($row);
-    $count = mysqli_num_rows($result);
-    if ($count == 1 && isset($_SESSION["email"]) && isset($_SESSION["password"])) { {
-  ?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Success
-            </h3>
-            <p>Login Successfully</p>
-            <p>
-                <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-                <?php echo "<script>setTimeout(\"location.href = 'index.php';\",1500);</script>"; ?>
-            </p>
-        </div>
-    </div>
-    <!--   <script>
+            // Data pengguna ditemukan, isi session
+            if ($row != null) {
+                $_SESSION["doctorid"] = $row['doctorid'];
+                $_SESSION["id"] = $row['doctorid'];
+                $_SESSION["password"] = $row['password'];
+                $_SESSION["email"] = $row['loginid'];
+                $_SESSION["fname"] = $row['doctorname'];
+                $_SESSION['user'] = $_POST['user'];
+            }
+        } else if ($_POST['user'] == 'patient') {
+            $sql = "SELECT * FROM patient WHERE loginid='" . $email . "' and password = '" . $pass . "'";
+            $result = mysqli_query($conn, $sql);
+            $row  = mysqli_fetch_array($result);
+            //print_r($row);    
+            if ($row != null) {
+                $_SESSION["patientid"] = $row['patientid'];
+                $_SESSION["id"] = $row['patientid'];
+                $_SESSION["password"] = $row['password'];
+                $_SESSION["email"] = $row['loginid'];
+                $_SESSION["fname"] = $row['patientname'];
+                $_SESSION['user'] = $_POST['user'];
+            }
+        }
+        //print_r($row);
+        $count = mysqli_num_rows($result);
+        if ($count == 1 && isset($_SESSION["email"]) && isset($_SESSION["password"])) { {
+    ?>
+                <div class="popup popup--icon -success js_success-popup popup--visible">
+                    <div class="popup__background"></div>
+                    <div class="popup__content">
+                        <h3 class="popup__content__title">
+                            Success
+                        </h3>
+                        <p>Login Successfully</p>
+                        <p>
+                            <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
+                            <?php echo "<script>setTimeout(\"location.href = 'index.php';\",1500);</script>"; ?>
+                        </p>
+                    </div>
+                </div>
+                <!--   <script>
      window.location="index.php";
      </script> -->
-    <?php
-      }
-    } else { ?>
-    <div class="popup popup--icon -error js_error-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Error
-            </h3>
-            <p>Invalid Email or Password</p>
-            <p>
-                <a href="login.php"><button class="button button--error" data-for="js_error-popup">Close</button></a>
-            </p>
-        </div>
-    </div>
+            <?php
+            }
+        } else { ?>
+            <div class="popup popup--icon -error js_error-popup popup--visible">
+                <div class="popup__background"></div>
+                <div class="popup__content">
+                    <h3 class="popup__content__title">
+                        Error
+                    </h3>
+                    <p>Invalid Email or Password</p>
+                    <p>
+                        <a href="login.php"><button class="button button--error" data-for="js_error-popup">Close</button></a>
+                    </p>
+                </div>
+            </div>
 
     <?php
+        }
     }
-  }
-  ?>
+    ?>
 
 
     <?php
-  $que = "select * from manage_website";
-  $query = $conn->query($que);
-  while ($row = mysqli_fetch_array($query)) {
-    //print_r($row);
-    extract($row);
-    $business_name = $row['business_name'];
-    $business_email = $row['business_email'];
-    $business_web = $row['business_web'];
-    $portal_addr = $row['portal_addr'];
-    $addr = $row['addr'];
-    $curr_sym = $row['curr_sym'];
-    $curr_position = $row['curr_position'];
-    $front_end_en = $row['front_end_en'];
-    $date_format = $row['date_format'];
-    $def_tax = $row['def_tax'];
-    $logo = $row['logo'];
-  }
-  ?>
+    $que = "select * from manage_website";
+    $query = $conn->query($que);
+    while ($row = mysqli_fetch_array($query)) {
+        //print_r($row);
+        extract($row);
+        $business_name = $row['business_name'];
+        $business_email = $row['business_email'];
+        $business_web = $row['business_web'];
+        $portal_addr = $row['portal_addr'];
+        $addr = $row['addr'];
+        $curr_sym = $row['curr_sym'];
+        $curr_position = $row['curr_position'];
+        $front_end_en = $row['front_end_en'];
+        $date_format = $row['date_format'];
+        $def_tax = $row['def_tax'];
+        $logo = $row['logo'];
+    }
+    ?>
 
 
     <section class="login-block">
@@ -192,13 +192,11 @@
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="email" name="email" class="form-control" required=""
-                                        placeholder="Email">
+                                    <input type="email" name="email" class="form-control" required="" placeholder="Email anda">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input type="password" name="password" class="form-control" required=""
-                                        placeholder="Password">
+                                    <input type="password" name="password" class="form-control" required="" placeholder="Password">
                                     <span class="form-bar"></span>
                                 </div>
                                 <div class="row m-t-25 text-left">
@@ -218,8 +216,7 @@
 
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button type="submit" name="btn_login"
-                                            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">LOGIN</button>
+                                        <button type="submit" name="btn_login" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">LOGIN</button>
                                     </div>
                                 </div>
                             </form>
@@ -249,8 +246,7 @@
     <script type="text/javascript" src="files/bower_components/i18next/js/i18next.min.js"></script>
     <script type="text/javascript" src="files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js">
     </script>
-    <script type="text/javascript"
-        src="files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
     <script type="text/javascript" src="files/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
     <script type="text/javascript" src="files/assets/js/common-pages.js"></script>
 

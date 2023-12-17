@@ -40,14 +40,23 @@ include('head.php');
         $otp = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 8)), 0, 8);
         $text_email = $_POST['email'];
 
-        $sql = "SELECT * FROM admin where loginid ='" . $text_email . "' ";
-        $ans = $conn->query($sql);
-        $res = mysqli_fetch_array($ans);
-        $realemail = $res['loginid'];
-        $person_fname = $res['fname'];
-        $person_lname = $res['lname'];
+        $sql_admin = "SELECT * FROM admin where loginid ='" . $text_email . "' ";
+        $sql_doctor = "SELECT * FROM doctor where loginid ='" . $text_email . "' ";
+        $sql_patient = "SELECT * FROM patient where loginid ='" . $text_email . "' ";
+
+        $ans_admin = $conn->query($sql_admin);
+        $ans_doctor = $conn->query($sql_doctor);
+        $ans_patient = $conn->query($sql_patient);
+
+        $res_admin = mysqli_fetch_array($ans_admin);
+        $res_doctor = mysqli_fetch_array($ans_doctor);
+        $res_patient = mysqli_fetch_array($ans_patient);
+
+        $realemail = $res_admin['loginid'] ?? $res_doctor['loginid'] ?? $res_patient['loginid'] ?? 'anonymous';
+        $person_fname = $res_admin['fname'] ?? $res_doctor['doctorname'] ?? $res_patient['patientname'] ?? 'anonymous';
+        $person_lname = $res_admin['lname'] ?? '';
         $personname = $person_fname . $person_lname;
-        $user_name = $res['username'];
+        $user_name = $res_admin['username'] ?? $person_fname;
 
 
         $msg = "Your Password is :'" . $otp . "'";
@@ -65,8 +74,10 @@ include('head.php');
         if ($text_email == $realemail) {
             $sql = "UPDATE admin SET password ='$otp_pass' WHERE loginid='$text_email'";
             $ans1 = $conn->query($sql);
-
-
+            $sql = "UPDATE doctor SET password ='$otp_pass' WHERE loginid='$text_email'";
+            $ans1 = $conn->query($sql);
+            $sql = "UPDATE patient SET password ='$otp_pass' WHERE loginid='$text_email'";
+            $ans1 = $conn->query($sql);
 
             $s = "select * from tbl_email_config";
             $r = $conn->query($s);
@@ -82,24 +93,27 @@ include('head.php');
             require_once 'PHPMailer/src/SMTP.php';
             require_once 'PHPMailer/src/Exception.php';
 
+            //Server settings
             $mail = new PHPMailer();
             $mail->isSMTP();
+            // $mail->Host = gethostbyname('smtp.gmail.com');
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'xiemedicalcare@gmail.com'; // Your Gmail address
+            $mail->Password   = 'wvaa ktab hsdk nyni'; // Your Gmail password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+            // $mail->Port       = 465;
 
-            $mail->Host = $mail_host;  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = $mail_username;                 // SMTP username
-            $mail->Password = $mail_password;                           // SMTP password
-            //$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail  // Enable TLS encryption, `ssl` also accepted
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = $mail_port;           // or 587                         // TCP port to connect to
-            $mail->setFrom($mail_username, $mail_name);
-            //$mail->addAddress($email, $fname);     // Add a recipient
-            $mail->addAddress($text_email, $personname);
+            //Recipients
+            $mail->setFrom('xiemedical.id@gmail.com', 'xiemedical.id'); // Your name and email address
+            $mail->addAddress($realemail, $personname); // Recipient's name and email address
+
             $mail->Subject = 'Forget Password';
-            $mail->Body    = "Hello, Your New Password is :'" . $otp . "' ";
+            $mail->Body    = "Hello $personname, Your New Password is :'" . $otp . "' ";
             //$mail->send();
             if ($mail->send()) {
-
     ?>
                 <link rel="stylesheet" href="popup_style.css">
                 <div class="popup popup--icon -success js_success-popup popup--visible">
@@ -122,7 +136,7 @@ include('head.php');
                         <h3 class="popup__content__title">
                             Error
                             </h1>
-                            <p>Something Goes Wrong.....</p>
+                            <p>Something Goes Wrong..... <?php echo $mail->ErrorInfo ?></p>
                             <p>
                                 <button class="button button--error" data-for="js_error-popup">Close</button>
                             </p>
@@ -167,7 +181,7 @@ include('head.php');
                             <div class="card-block">
                                 <div class="row m-b-20">
                                     <div class="col-md-12">
-                                        <h3 class="text-left">Recover your password</h3>
+                                        <h3 class="text-left">Reset Password Anda</h3>
                                     </div>
                                 </div>
                                 <div class="form-group form-primary">
@@ -180,16 +194,14 @@ include('head.php');
                                             Password</button>
                                     </div>
                                 </div>
-                                <p class="f-w-600 text-right">Back to <a href="login.php">Login.</a></p>
+                                <!-- <p class="f-w-600 text-right">Back to <a href="login.php">Login.</a></p> -->
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <p class="text-inverse text-left m-b-0">Thank you.</p>
-                                        <p class="text-inverse text-left"><a href="index.php"><b class="f-w-600">Back to
-                                                    website</b></a></p>
+                                        <p class="text-inverse text-left m-b-0">Terima Kasih.</p>
+                                        <p class="text-inverse text-left"><a href="index.php"><b class="f-w-600">Kembali
+                                                    ke login</b></a></p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <img src="files/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

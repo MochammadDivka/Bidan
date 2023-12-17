@@ -1,7 +1,10 @@
 <?php require_once('check_login.php'); ?>
 <?php include('head.php'); ?>
-<?php include('header.php'); ?>
-<?php include('sidebar.php'); ?>
+<?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
+    include('header.php');
+    include('sidebar.php');
+} ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php include('connect.php');
 if (isset($_GET['delid'])) {
     $sql = "UPDATE appointment SET delete_status='1' WHERE appointmentid='$_GET[delid]'";
@@ -15,19 +18,15 @@ if (isset($_GET['delid'])) {
 
 if (isset($_SESSION['popup-delete']) && $_SESSION['popup-delete'] == true) {
 ?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Success
-            </h3>
-            <p>Appointment record deleted successfully.</p>
-            <p>
-                <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-                <?php echo "<script>setTimeout(\"location.href = 'view-pending-appointment.php';\",1500);</script>"; ?>
-            </p>
-        </div>
-    </div>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil dihapus !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
 }
 if (isset($_GET['approveid'])) {
@@ -46,19 +45,15 @@ if (isset($_GET['approveid'])) {
 
 if (isset($_SESSION['popup-approved']) && $_SESSION['popup-approved'] == true) {
 ?>
-    <div class="popup popup--icon -success js_success-popup popup--visible">
-        <div class="popup__background"></div>
-        <div class="popup__content">
-            <h3 class="popup__content__title">
-                Success
-            </h3>
-            <p>Appointment record Approved successfully.</p>
-            <p>
-                <!--  <a href="index.php"><button class="button button--success" data-for="js_success-popup"></button></a> -->
-                <?php echo "<script>setTimeout(\"location.href = 'view-pending-appointment.php';\",1500);</script>"; ?>
-            </p>
-        </div>
-    </div>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Appointment record Approved successfully.",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php
 
 }
@@ -100,11 +95,12 @@ if (isset($_GET['id'])) { ?>
                             <div class="page-header-breadcrumb">
                                 <ul class="breadcrumb-title">
                                     <li class="breadcrumb-item">
-                                        <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
+                                        <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
                                     <li class="breadcrumb-item"><a>Persetujuan Pemeriksaan</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="view_user.php">Persetujuan Pemeriksaan</a>
+                                    <li class="breadcrumb-item"><a href="view-pending-appointment.php">Persetujuan
+                                            Pemeriksaan</a>
                                     </li>
                                 </ul>
                             </div>
@@ -173,6 +169,19 @@ if (isset($_GET['id'])) { ?>
                                         ?>
                                     </tbody>
                                 </table>
+                                <?php if ($_SESSION['user'] == 'patient') {
+                                ?>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2"></label>
+                                        <div class="col-sm-10">
+                                            <!-- Tombol Kembali -->
+                                            <a href="index.php" class="btn btn-secondary m-b-0">
+                                                <i class="feather icon-arrow-left"></i> Kembali
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -202,6 +211,15 @@ if (isset($_GET['id'])) { ?>
                 </p>
         </div>
     </div>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil disimpan !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
 <?php unset($_SESSION["success"]);
 } ?>
 <?php if (!empty($_SESSION['error'])) {  ?>

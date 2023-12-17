@@ -1,19 +1,33 @@
+<style>
+    .footer {
+        color: white;
+        /* Set the default text color for the footer */
+    }
 
-            <footer class="footer text-center" ><marquee behavior="alternate">bidan ni dek <a href="nikhilbhalerao.com"  target="_blank" style="color: yellow;"><?php echo "dibuat oleh kelompok 4 ";?>
-           
-</a></marquee></footer> 
+    .highlight {
+        color: yellow;
+        /* Set the color to yellow */
+    }
+</style>
 
-            <!-- End footer -->
-        </div>
-        <!-- End Page wrapper  -->  
-    </div>
-  
+<footer class="footer text-center">
+    <marquee behavior="alternate">
+        Jam pelayanan pagi <span class="highlight">06.00-07.00</span> | Jam pelayanan sore <span class="highlight">17.00-20.00</span>
+    </marquee>
+</footer>
+
+
+
+
+</div>
+</div>
+
 
 
 <script type="text/javascript" src="files/bower_components/jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
 
-    <script type="text/javascript" src="files/bower_components/popper.js/js/popper.min.js"></script>
+<script type="text/javascript" src="files/bower_components/popper.js/js/popper.min.js"></script>
 <script type="text/javascript" src="files/bower_components/bootstrap/js/bootstrap.min.js"></script>
 
 

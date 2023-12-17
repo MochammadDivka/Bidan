@@ -1,10 +1,13 @@
-<?php require_once('check_login.php');
+<?php
+// session_start();
+require_once('check_login.php');
 include('head.php');
-include('pala.php');
+if ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') {
+    include('pala.php');
+}
 include('connect.php');
 
 
-session_start();
 switch ($_SESSION) {
     case 'doctor':
         if (isset($_GET['patientid'])) {
@@ -19,7 +22,18 @@ switch ($_SESSION) {
         # code...
         break;
 }
+if (isset($_GET['action'], $_POST['delete'])) {
+    $status =
+        mysqli_query(
+            $conn,
+            "DELETE from riwayatkehamilan where id = $_POST[delete]"
+        );
+    if ($status) {
+        $_SESSION['popup-delete-sukses'] = true;
+    }
+}
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -43,8 +57,7 @@ switch ($_SESSION) {
                                     <li class="breadcrumb-item">
                                         <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="listtabel.php">List Tabel
-                                    </li>
+
                                     <li class="breadcrumb-item"><a href="tabelRK.php">Tabel Riwayat Kehamilan</a>
                                     </li>
                                 </ul>
@@ -86,7 +99,13 @@ switch ($_SESSION) {
                                         <th>Penolong Persalinan</th>
                                         <th>Tempat Persalinan</th>
                                         <th>Keterangan</th>
-                                        <th>Action</th>
+                                        <?php
+                                        if ($_SESSION['user'] == 'doctor') {
+                                        ?>
+                                            <th>Action</th>
+                                        <?php
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,6 +127,17 @@ switch ($_SESSION) {
                                             <td><?php echo $array1['penolong_persalinan'] ?></td>
                                             <td><?php echo $array1['tempat_persalinan'] ?></td>
                                             <td><?php echo $array1['keterangan'] ?></td>
+                                            <?php
+                                            if ($_SESSION['user'] == 'doctor') {
+                                            ?>
+                                                <td>
+                                                    <form action="?action=delete" method="post">
+                                                        <button class="btn btn-md btn-danger" type="submit" name="delete" value="<?php echo $array1['id'] ?>" ">DELETE</button>
+                                            </form>
+                                            </td>
+                                                <?php
+                                            }
+                                                ?>
 
                                         </tr>
                                     <?php
@@ -120,24 +150,25 @@ switch ($_SESSION) {
                     </div>
                 </div>
 
-                <div class="col-sm-4 mb-4">
-                    <a href="<?php echo $_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin' ? 'view-patient.php' : $_SERVER['HTTP_REFERER'] ?>" class="btn btn-secondary custom-btn">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
+                <div class=" col-sm-4 mb-4">
+                                                            <a href="<?php echo ($_SESSION['user'] == 'doctor' || $_SESSION['user'] == 'admin') ? 'view-patient.php' : 'index.php'; ?>" class="btn btn-secondary custom-btn">
+                                                                <i class="fas fa-arrow-left"></i> Kembali
+                                                            </a>
+
+                        </div>
+
+
+
+                    </div>
+
+
                 </div>
 
-
-
+                <div id="#">
+                </div>
             </div>
-
-
-        </div>
-
-        <div id="#">
         </div>
     </div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -185,3 +216,19 @@ switch ($_SESSION) {
     Array.from(document.querySelectorAll('button[data-for]')).
     forEach(addButtonTrigger);
 </script>
+<?php
+if (isset($_SESSION['popup-delete-sukses']) && $_SESSION['popup-delete-sukses'] == true) {
+?>
+    <script>
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil dihapus !",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+<?php
+    $_SESSION['popup-delete-sukses'] = false;
+}
+?>

@@ -1,14 +1,18 @@
+<?php require_once('check_login.php'); ?>
+<?php include('head.php'); ?>
+
+<?php if ($_SESSION['user'] == 'doctor ' || $_SESSION['user'] == 'admin') {
+    include('header.php');
+    include('sidebar.php');
+} ?>
+
+<?php include('connect.php'); ?>
 <?php
-require_once 'check_login.php';
-include 'head.php';
-include 'header.php';
-include 'sidebar.php';
-include 'connect.php';
 
 if (isset($_POST['btn_submit'])) {
     if (isset($_GET['editid'])) {
         $patient = mysqli_real_escape_string($conn, $_POST['patient']);
-        $department = mysqli_real_escape_string($conn, $_POST['department']);
+        // $department = mysqli_real_escape_string($conn, $_POST['department']);
         $appointmentdate = mysqli_real_escape_string($conn, $_POST['appointmentdate']);
         $appointmenttime = mysqli_real_escape_string($conn, $_POST['appointmenttime']);
         $doctor = mysqli_real_escape_string($conn, $_POST['doctor']);
@@ -98,10 +102,11 @@ if (isset($_GET['editid'])) {
                             <div class="page-header-breadcrumb">
                                 <ul class="breadcrumb-title">
                                     <li class="breadcrumb-item">
-                                        <a href="dashboard.php"> <i class="feather icon-home"></i> </a>
+                                        <a href="index.php"> <i class="feather icon-home"></i> </a>
                                     </li>
                                     <li class="breadcrumb-item"><a>Pendaftaran Pemeriksaan</a></li>
-                                    <li class="breadcrumb-item"><a href="add_user.php">Pendaftaran Pemeriksaan</a></li>
+                                    <li class="breadcrumb-item"><a href="appointment.php">Pendaftaran Pemeriksaan</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -191,11 +196,11 @@ if (isset($_GET['editid'])) {
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Reason</label>
+                                            <label class="col-sm-2 col-form-label">Keterangan</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" name="reason" id="reason" placeholder="Reason...." required=""><?php if (isset($_GET['patid'])) {
-                                                                                                                                                    echo $rsedit['app_reason'];
-                                                                                                                                                } ?></textarea>
+                                                <textarea class="form-control" name="reason" id="reason" placeholder="Isikan Keterangan pemeriksaan anda...." required=""><?php if (isset($_GET['patid'])) {
+                                                                                                                                                                                echo $rsedit['app_reason'];
+                                                                                                                                                                            } ?></textarea>
                                                 <span class="messages"></span>
                                             </div>
                                         </div>
@@ -206,6 +211,19 @@ if (isset($_GET['editid'])) {
                                                 <button type="submit" name="btn_submit" class="btn btn-primary m-b-0">Submit</button>
                                             </div>
                                         </div>
+                                        <?php if ($_SESSION['user'] == 'patient') {
+                                        ?>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2"></label>
+                                                <div class="col-sm-10">
+                                                    <!-- Tombol Kembali -->
+                                                    <a href="index.php" class="btn btn-secondary m-b-0">
+                                                        <i class="feather icon-arrow-left"></i> Kembali
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
 
                                     </form>
                                 </div>
